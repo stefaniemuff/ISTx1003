@@ -1,6 +1,6 @@
 ---
 subtitle: "ISTx1003 Statistisk læring og Data Science"
-title: "Module 4: Classification"
+title: "Klassifikasjon"
 author: "Stefanie Muff, Institutt for matematiske fag"
 date: "November xy, 2021"
 fontsize: 10pt
@@ -46,7 +46,7 @@ $~$
 
 * Trening, validering og testing (3 datasett)
 
-* $k$-nærmeste nabo (kNN): en intuitiv metode
+* $k$-nærmeste nabo (KNN): en intuitiv metode
 
 * Forvirringsmatrise og feilrate for å evaluere metoden
 
@@ -64,7 +64,7 @@ aktuell metode å bruke
 * kjenne begrepene treningssett, valideringssett og testsett og forstå hvorfor vi lager dem og hva de skal brukes til
 
 * vite hva en forvirringsmatrise er, og kjenne til begrepene
-feilrate og nøyaktighet (accuracy)
+_feilrate_ (error rate) og _nøyaktighet_ (accuracy)
 
 * forstå tankegangen bak $k$-nærmeste nabo-klassifikasjon, valg av k
 
@@ -121,7 +121,7 @@ For hver av de uavhengige observasjonene $i=1,\ldots,n$ har vi
 \vspace{2mm}
 
 * Hvilke tall er handskrevet på brev? Og hva er sannsynligheten for de ulike tallene (=klasser).
-  <!-- * Hvor mange klasser? -->
+\vspace{2mm}
 
 \centering
 ![](mnist.jpeg){width=50%}
@@ -277,10 +277,12 @@ grid.arrange( gg1, gg2, gg3, ncol = 3 )
 
 # $k$-nærmeste-nabo-klassifikasjon
 
-For å finne klassifikasjonsreglen bruker vi bare treningsdataene.
+$~$
 
+For å _finne_ klassifikasjonsreglen bruker vi bare treningsdataene.
 
-Bruker bare treningsdataene.
+$~$
+
 Algoritmen:
   
   1) Ny observasjon: $x_0=(x_{1,0}, x_{2,0} , \ldots , x_{p,0})$ . Hvilken klasse bør denne klassifiseres til?
@@ -448,17 +450,17 @@ $~$
 
 Vi så jo at
 
-* Vi skal ikke velge $k$ for liten, ellers blir grensen for fleksibel.
+* Vi skal ikke velge $k$ for liten, ellers blir grensen _for fleksibel_.
 
 $~$
 
 Men: 
 
-* Vi skal antakeligvis heller ikke velge $k$ for stor, ellers kan bli for ufleksibel.
+* Vi skal antakeligvis heller ikke velge $k$ for stor, ellers kan bli _for ufleksibel_.
 
 $~$
 
-Det er noe som kalles en trade-off, og vi skal bruk valideringssettet for få en ide om kvaliteten i klassifikasjonen.
+Det er noe som kalles en trade-off, og vi skal bruk valideringssettet for å få en ide om kvaliteten i klassifikasjonen.
 
 ---
 
@@ -511,7 +513,7 @@ gg99.valid
 
 $~$
 
-Det kan nå gjøres med alle $k=1,3,\ldots$, $k\leq n$. De ser slik ut:
+Det kan nå gjøres med alle $k=1,3,\ldots$, $k\leq n$. Det ser slik ut:
 
 \vspace{5mm}
 
@@ -545,20 +547,20 @@ grid.arrange(gg1,gg5,gg15,gg99,nrow=2)
 
 \vspace{2mm}
 
-Husk at vi hadde tre deler i datasettet:
+Husk at vi hadde _tre_ deler i datasettet:
 
 \vspace{2mm}
 
-* Treningssett: For å lage en klassifikasjonsregel
-* Valideringssett: For å finne på optimale hyperparametere
-* Testsett: For å evaluere regelen på fremtidige data
+* **Treningssett**: For å lage en klassifikasjonsregel
+* **Valideringssett**: For å finne på optimale hyperparametere
+* **Testsett**: For å evaluere regelen på fremtidige data
 
 \vspace{5mm}
 
 ![](datasett.png)
 
 \vspace{2mm}
-Nå kan vi bruk testsettet for å finne feilraten.
+Nå kan vi bruke testsettet for å finne feilraten.
 
 ---
 
@@ -604,82 +606,83 @@ for i,k in enumerate(knaboer):
 
 Plott feilrate:
 
-plt.title('k-NN for ulike verdier av antall naboer k')
-plt.plot(knaboer, val_feilrate, label='Feilrate på
-valideringssettet')
-plt.xlabel('Antall naboer k'); plt.ylabel('Feilrate')
-plt.show()
+`plt.title('k-NN for ulike verdier av antall naboer k')`  
+`plt.plot(knaboer, val_feilrate, label='Feilrate på`  
+ $~$ `valideringssettet')`  
+`plt.xlabel('Antall naboer k'); plt.ylabel('Feilrate')`  
+`plt.show()`
 
 Velg k:
-mink_valfeilrate =
-knaboer[np.where(val_feilrate == val_feilrate.min())]
-print(mink_valfeilrate[0])
 
-Sett opp
-klassifikator:
+`mink_valfeilrate =`  
+$~$ `knaboer[np.where(val_feilrate == val_feilrate.min())]`  
+`print(mink_valfeilrate[0])`  
 
-bestek=99
-knn =
-KNeighborsClassifier(n_neighbors=bestek,p=2)
+--- 
 
-Feilrate på
-testsett: 
-knn.fit(df_tren[['x1','x2']], df_tren['y'])
-print("Feilrate kNN:", 1-
-knn.score(df_test[['x1','x2']], df_test['y']))
+Sett opp klassifikator:
 
+`bestek=99`  
+`knn = KNeighborsClassifier(n_neighbors=bestek,p=2)`  
 
----
+Feilrate på testsett: 
 
-## Pensum for oppgave 2 -- hvor er vi nå?
+`knn.fit(df_tren[['x1','x2']], df_tren['y'])`  
+`print("Feilrate kNN:", 1- knn.score(df_test[['x1','x2']], df_test['y']))`  
 
 
+<!-- --- -->
 
-\begin{multicols}{2}
-\begin{itemize}
-\item trening/validering/test
-\item hvorfor
-\item hvordan bruke
-\item viktig å tenke på
-\end{itemize}
+<!-- ## Pensum for oppgave 2 -- hvor er vi nå? -->
 
-\vspace{4mm}
 
-\begin{itemize}
-\item tolke plott
-\item boksplott histogram
-\item kryssplott korrelasjon
-\item hva ser vi etter når vi vil lage en god klassifikasjonsregel?
-\end{itemize}
 
-\vspace{15mm}
+<!-- \begin{multicols}{2} -->
+<!-- \begin{itemize} -->
+<!-- \item trening/validering/test -->
+<!-- \item hvorfor -->
+<!-- \item hvordan bruke -->
+<!-- \item viktig å tenke på -->
+<!-- \end{itemize} -->
 
-\begin{itemize}
-\item Forvirringsmatrise og feilrate
-\item evaluere modell
-\item velg mellom to modeller eller metoder
-\item velge hyperparameter
-\end{itemize}
+<!-- \vspace{4mm} -->
 
-\vspace{4mm}
+<!-- \begin{itemize} -->
+<!-- \item tolke plott -->
+<!-- \item boksplott histogram -->
+<!-- \item kryssplott korrelasjon -->
+<!-- \item hva ser vi etter når vi vil lage en god klassifikasjonsregel? -->
+<!-- \end{itemize} -->
 
-\begin{itemize}
-\item $k$-nærmeste nabo (kNN)
-\item forstå metoden
-\item velge $k$
-\end{itemize}
+<!-- \vspace{15mm} -->
 
-\vspace{4mm}
+<!-- \begin{itemize} -->
+<!-- \item Forvirringsmatrise og feilrate -->
+<!-- \item evaluere modell -->
+<!-- \item velg mellom to modeller eller metoder -->
+<!-- \item velge hyperparameter -->
+<!-- \end{itemize} -->
 
-\begin{itemize}
-\item logistisk regresjon
-\item tolke estimerte koeffisienter
-\item hypotesetest og p-verdi
-\item velge mellom modeller
-\end{itemize}
-\end{multicols}
+<!-- \vspace{4mm} -->
 
----
+<!-- \begin{itemize} -->
+<!-- \item $k$-nærmeste nabo (kNN) -->
+<!-- \item forstå metoden -->
+<!-- \item velge $k$ -->
+<!-- \end{itemize} -->
+
+<!-- \vspace{4mm} -->
+
+<!-- \begin{itemize} -->
+<!-- \item logistisk regresjon -->
+<!-- \item tolke estimerte koeffisienter -->
+<!-- \item hypotesetest og p-verdi -->
+<!-- \item velge mellom modeller -->
+<!-- \end{itemize} -->
+<!-- \end{multicols} -->
+
+<!-- --- -->
+
 
 # Plan for i dag
 
@@ -734,9 +737,11 @@ Datasettet `Default` er tatt fra her: https://rdrr.io/cran/ISLR/man/Credit.html
 
 ---
 
-Det ser ut som at "Balance" er en ganske go forklarende variabel til Default (nei/ja).
+Det ser ut som at "Balance" er en ganske god forklarende variabel til Default (nei/ja).
 
-```{r, echo=F,fig.width=8,fig.height=4,fig.align = "center",out.width='90%'}
+$~$
+
+```{r, echo=F,fig.width=8,fig.height=3.7,fig.align = "center",out.width='95%'}
 library(ISLR)
 data(Default)
 Default$default.bin <- as.numeric(Default$default)-1
@@ -772,7 +777,7 @@ plot(default.bin ~ balance,data=Default,xlab="Balanse",ylab="Default (0/1)",col=
 
 ---
 
-* Kunne vi da ikke bare formulere en linear regresjonsmodell for $X$ vs. $Y$? 
+* Kunne vi da ikke bare formulere en linear regresjonsmodell for $Y$ vs. $X$? 
 
 * Vi kunne jo klassifisere response som "ja" (1) hvis $\hat{Y}> 0.5$.
 
@@ -784,7 +789,7 @@ plot(default.bin ~ balance,data=Default,xlab="Balanse",ylab="Default (0/1)",col=
 $~$
 
 For kredittortdatasettet:
-
+\vspace{-2mm}
 
 ![ISLR Figure 3.7](4.2.png)
 
@@ -822,3 +827,153 @@ $~$
 * **Ideen**: å koble $p_i$ sammen med forklaringsvariablen med en logistisk funksjon:
 
 $$p_i = \frac{\exp(\beta_0 + \beta_1 x_{1i})}{1+ \exp(\beta_0 + \beta_1 x_{1i})} \ .$$
+
+I kredittkorteksempelet er $x_{1i}$ balansen til person $i$.
+
+---
+
+## Klassifikasjonsregel
+
+$~$
+
+$p\geq 0.5$ vs $p<0.5$:
+
+$~$
+
+```{r, echo=F,fig.width=7,fig.height=5.5,fig.align = "center",out.width='80%'}
+r.glm <- glm(default.bin~balance,Default,family="binomial") 
+coefs <- summary(r.glm)$coef[,1]
+
+xx <- seq(0,2700)
+eta <- coefs[1] + coefs[2]*xx
+probs <- exp(eta)/(1+exp(eta))
+
+plot(default.bin ~ balance,data=Default,xlab="Balanse",ylab="Sannsynlighet for Default",col="orange")
+lines(xx,probs,type="l",col=4,lwd=3)
+abline(h=0.5,lty=2)
+abline(v=1937,lty=2)
+text(x=2240,y=0.2,labels="Balanse=1937")
+```
+
+---
+
+## Enkel logistisk regresjon med Python
+
+$~$
+
+![](default_enkelt.png)
+
+---
+
+## Tolkning av $\beta_1$: odds
+
+$~$
+
+* Odds er definert som ratioen mellom sannsynlighet for suksess ($p$) og fiasko ($1-p$): 
+$$odds = \frac{p}{1-p}$$
+
+$~$
+
+* Noen eksempler:
+
+$~$
+
+$~$
+
+* I logistisk regresjon: Hvis vi øker verdien til kovariaten fra $x_{i1}$ til $x_{i1} + 1$ så blir
+den nye oddsen lik den gamle multiplisert med $e^{\beta_1}$.
+
+
+---
+
+## Enkel logistisk regresjon  
+
+$~$
+
+![](default_enkelt2.png)
+
+$~$
+
+$~$
+
+* $\beta_0=-11.0385$, $\beta_1=0.0057$.
+
+\vspace{3mm}
+
+* $e^{0.0057}=1.0057$: Hvis `balance` øker med 1, går odds opp en _faktor_ 1.0057. 
+
+\vspace{3mm}
+
+* $e^{0.0057\cdot 100}=1.768$: Hvis `balance` øker med 100, går odds opp en _faktor_ 1.769.
+
+\vspace{3mm}
+
+* Husk at $H_0: \beta_1=0$ versus $H_1: \beta_1\neq 0$. Her vi har $p<0.001$ for testen, derfor forkaster vi $H_0$.
+
+
+\vspace{10mm}
+
+---
+
+## Logistisk regresjon med flere forklaringsvariabler
+
+$~$
+
+![](default_multiple.png)
+
+$~$
+
+* Nytt: $$p_i = \frac{\exp(\beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i})}{ 1 + \exp(\beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i})}$$
+
+\vspace{2mm}
+
+* Tolkning av $\beta_1$ og $\beta_2$?
+
+\vspace{2mm}
+
+* $p$-verdi?
+
+---
+
+## Hvilken modell er bedre?
+
+$~$
+
+* For klassifikasjonen, skal vi velge modellen med bare `balance` eller med `balance + income`?
+
+$~$
+
+* Ideen: Skjekk feilrate på valideringssettet!
+
+$~$
+
+* Husker du bruk av forvirringsmatrise?
+
+$~$
+
+* Det har jeg gjort: 
+    * Enkelt modell: 0.031
+    * Multipel modell: 0.0295
+
+
+
+---
+
+## Python code
+
+$~$
+
+`formel='y ~ balance + income'`  
+`modell = smf.logit(formel,data=df)`  
+`resultat = modell.fit()`  
+`resultat.summary()`  
+`print(np.exp(resultat.params))` 
+
+$~$
+
+`cutoff = 0.5`  
+`test_pred = resultat.predict(exog = df_test)`  
+`y_testpred = np.where(test_pred > cutoff, 1, 0)`  
+`y_testobs = df_test['y']`  
+`print("Feilrate:", 1-accuracy_score(y_true=y_testobs,`  
+  $~$ `y_pred=y_testpred,normalize=True))`
