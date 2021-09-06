@@ -2,7 +2,7 @@
 subtitle: "ISTx1003 Statistisk læring og Data Science"
 title: "Klassifikasjon"
 author: "Stefanie Muff, Institutt for matematiske fag"
-date: "November xy, 2021"
+date: "November 5 og 8, 2021"
 fontsize: 10pt
 output:
   beamer_presentation:
@@ -466,17 +466,23 @@ Det er noe som kalles en trade-off, og vi skal bruk valideringssettet for å få
 
 ## Forvirringsmatrise
 
+$~$
 
 Forvirringsmatrise med to klasser:
 
-\vspace{4cm}
+\centering
+![](forvirringsmatrise.png){width=35%}  
+(Fra Mette Langaas)
 
+$~$
+
+\flushleft
 * **Feilrate**: andel feilklassifiserte observasjoner.
 
 $~$
 
-\centering
-Derfor: Vi velger den $k$ som minimerer feilraten på _valideringssettet_ (ikke trainingssettet!).
+
+* Derfor: Vi velger den $k$ som minimerer feilraten på _valideringssettet_ (ikke trainingssettet!).
 
 ---
 
@@ -591,13 +597,13 @@ Feilraten er `r error`.
 
 # $k$-nærmeste nabo klassifikasjon i Python
 
-knaboer = np.arange(1,199,step=2)
+`knaboer = np.arange(1,199,step=2)`
 
-val_feilrate = np.empty(len(knaboer))
-for i,k in enumerate(knaboer):
-  knn = KNeighborsClassifier(n_neighbors=k,p=2)
-  knn.fit(df_tren[['x1','x2']], df_tren['y'])
-  val_feilrate[i] = 1-knn.score(df_val[[‘x1','x2']], df_val['y'])
+`val_feilrate = np.empty(len(knaboer))`  
+`for i,k in enumerate(knaboer):`  
+$~$ `knn = KNeighborsClassifier(n_neighbors=k,p=2)`  
+$~$ `knn.fit(df_tren[['x1','x2']], df_tren['y'])`  
+$~$ `val_feilrate[i] = 1-knn.score(df_val[[‘x1','x2']], df_val['y'])`  
 
 
 ---
@@ -612,6 +618,8 @@ Plott feilrate:
 `plt.xlabel('Antall naboer k'); plt.ylabel('Feilrate')`  
 `plt.show()`
 
+$~$
+
 Velg k:
 
 `mink_valfeilrate =`  
@@ -624,6 +632,8 @@ Sett opp klassifikator:
 
 `bestek=99`  
 `knn = KNeighborsClassifier(n_neighbors=bestek,p=2)`  
+
+$~$
 
 Feilrate på testsett: 
 
@@ -874,11 +884,16 @@ $$odds = \frac{p}{1-p}$$
 
 $~$
 
-* Noen eksempler:
+* Noen eksempler (og zoom poll):
+
+$~$
+
+\vspace{5mm}
 
 $~$
 
 $~$
+
 
 * I logistisk regresjon: Hvis vi øker verdien til kovariaten fra $x_{i1}$ til $x_{i1} + 1$ så blir
 den nye oddsen lik den gamle multiplisert med $e^{\beta_1}$.
@@ -935,7 +950,7 @@ $~$
 
 ---
 
-## Hvilken modell er bedre?
+## Hvilken model er bedre?
 
 $~$
 
@@ -948,14 +963,34 @@ $~$
 $~$
 
 * Husker du bruk av forvirringsmatrise?
+ 
 
 $~$
 
-* Det har jeg gjort: 
+* Dette er resultatene fra modellene: 
+
+```{r,eval=T, echo=F}
+matrix(c(1923, 10, 52, 15),nrow=2,byrow=T)
+matrix(c(1924, 9, 50, 17),nrow=2,byrow=T)
+```
+$~$
+
+
+* Feilratene derfor er: 
     * Enkelt modell: 0.031
-    * Multipel modell: 0.0295
+    * Multippel modell: 0.0295
 
+---
 
+## Feilrate testsett
+
+$~$
+
+Til slutten kan vi sjekke feilraten på testsettet -- dette settet har vi enda ikke brukt.
+
+$~$
+
+Her finner vi 0.0245
 
 ---
 
@@ -977,3 +1012,24 @@ $~$
 `y_testobs = df_test['y']`  
 `print("Feilrate:", 1-accuracy_score(y_true=y_testobs,`  
   $~$ `y_pred=y_testpred,normalize=True))`
+  
+  
+--- 
+
+# Videre denne uken
+
+$~$
+
+* Se på videoene om Klyngeanalyse og K-gjennomsnitt (vent med videoen om hierarkisk klyngeanalyse) 
+
+$~$
+
+* Les i kompendiet
+
+$~$
+
+* Begynn å jobbe med prosjektoppgavene 
+
+$~$
+
+* Se her for mer informasjon: https://wiki.math.ntnu.no/istx1003/2021h/start
