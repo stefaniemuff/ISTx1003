@@ -1,0 +1,472 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[10pt,ignorenonframetext,]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+\centering
+\begin{beamercolorbox}[sep=16pt,center]{part title}
+  \usebeamerfont{part title}\insertpart\par
+\end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+\centering
+\begin{beamercolorbox}[sep=12pt,center]{part title}
+  \usebeamerfont{section title}\insertsection\par
+\end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{part title}
+  \usebeamerfont{subsection title}\insertsubsection\par
+\end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usetheme[]{Singapore}
+\usefonttheme{serif}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Linear regresjon (enkel og multippel)},
+            pdfauthor={Stefanie Muff, Institutt for matematiske fag},
+            colorlinks=true,
+            linkcolor=Maroon,
+            filecolor=Maroon,
+            citecolor=Blue,
+            urlcolor=blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\newif\ifbibliography
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{multicol}
+
+\title{Linear regresjon (enkel og multippel)}
+\providecommand{\subtitle}[1]{}
+\subtitle{ISTx1003 Statistisk læring og Data Science}
+\author{Stefanie Muff, Institutt for matematiske fag}
+\date{November 1 og 5, 2021}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{Plan for i dag}
+\protect\hypertarget{plan-for-i-dag}{}
+
+\(~\)
+
+\begin{itemize}
+\item
+  Hvem er vi?
+\item
+  Statistisk læring og data science
+\item
+  De tre temaene i modulen:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    regresjon
+  \item
+    klassifikasjon og
+  \item
+    klyngeananlyse
+  \end{itemize}
+\item
+  Læringsressurser og pensum
+\item
+  Prosjektoppgaven og Blackboard-informasjon
+\item
+  Tema: regresjon - med enkel lineær regresjon
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Læringsmål (av modulen)}
+\protect\hypertarget{luxe6ringsmuxe5l-av-modulen}{}
+
+Etter du har gjennomført denne modulen skal du kunne:
+
+\begin{itemize}
+\item
+  forstå når du kan bruke regresjon, klassifikasjon og klyngeananlyse
+  til å løse et ingeniørproblem
+\item
+  kunne gjennomføre multippel lineær regresjon på et datasett
+\item
+  bruke logistisk regresjon og nærmeste nabo for å utføre en
+  klassifikasjonsoppgave
+\item
+  bruke hierarkisk og \(k\)-means klyngeanalyse på et datasett, forstå
+  begrepet avstandsmål
+\item
+  og kunne kommunisere resultatene fra regresjon/
+  klassifikasjon/klyngeanalyse til medstudenter og ingeniører
+\item
+  bli en kritisk leser av resultater fra statistikk/maskinlæring/
+  statistisk læring/data science/kunstig intelligens når disse
+  rapporteres i media, og forstå om resultatene er realistiske ut fra
+  informasjonen som gis
+\item
+  kunne besvare prosjektoppgaven på en god måte!
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Hva er statistisk læring og data science?}
+\protect\hypertarget{hva-er-statistisk-luxe6ring-og-data-science}{}
+
+Todo
+
+\end{frame}
+
+\begin{frame}{Prosjektoppgaven}
+\protect\hypertarget{prosjektoppgaven}{}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Vi ser hvor informasjonen ligger på Blackboard og hvordan melde seg på
+  gruppe.
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Vi ser på prosjektoppgaven på \url{https://s.ntnu.no/isthub}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Læringsmål (i dag)}
+\protect\hypertarget{luxe6ringsmuxe5l-i-dag}{}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Du kan lage en modell for å forstå sammenhengen mellom en respons og
+  en eller flere forklaringsvariabler.
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Du kan lage en modell for å predikere en respons fra en eller flere
+  forklaringsvariabler.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Læringsressurser}
+\protect\hypertarget{luxe6ringsressurser}{}
+
+\vspace{2mm}
+
+Alle ressurser er tilgjengelig her:
+
+\url{https://wiki.math.ntnu.no/istx1003/2021h/start}
+
+\(~\)
+
+Tema Regresjon:
+
+\vspace{2mm}
+
+\begin{itemize}
+\item
+  \textbf{Kompendium}: Regresjon (pdf og html, by Mette Langaas)
+\item
+  \textbf{Korte videoer}: (by Mette Langaas)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Multippel lineær regresjon: introduksjon (14:07 min)
+  \item
+    Multippel lineær regresjon: analyse av et datasett (15:20 min)
+  \end{itemize}
+\item
+  Denne forelesningen
+\item
+  \textbf{Disse slides} med notater
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Regresjon -- motiverende eksempel}
+\protect\hypertarget{regresjon-motiverende-eksempel}{}
+
+\centering\tiny(Veiledet læring - vi kjenner responsen)
+
+\vspace{2mm}
+
+\flushleft
+\normalsize
+
+\begin{itemize}
+\tightlist
+\item
+  Kropssfett er en viktig indikator for overvekt, men vanskelig å måle.
+\end{itemize}
+
+\vspace{2mm}
+
+\textbf{Spørsmål:} Hvilke faktorer tillater præsis estimering av
+kroppsfettet?
+
+\vspace{2mm}
+
+Vi undersøer 243 mannlige deltakere. Kroppsfett (\%), BMI og andre
+forklaringsvariabler ble målet. Spredningsplott:
+
+\begin{center}\includegraphics[width=1\linewidth]{1Regresjon_files/figure-beamer/motivating-1} \end{center}
+
+\end{frame}
+
+\begin{frame}
+
+For en model for funker god for prediksjon trenger vi \emph{multippel
+linear regresjon}. Men vi begynner med \emph{enkel linear regresjon}
+(bare en forklaringsvariabel):
+
+\begin{center}\includegraphics[width=0.7\linewidth]{1Regresjon_files/figure-beamer/motivating2-1} \end{center}
+
+\end{frame}
+
+\begin{frame}{Enkel linear regresjon}
+\protect\hypertarget{enkel-linear-regresjon}{}
+
+\(~\)
+
+\begin{itemize}
+\item
+  En kontinuerlig respons variabel \(Y\)
+\item
+  Bare \emph{en forklaringsvariable} \(x_1\)
+\item
+  Relasjon mellom \(Y\) og \(x\) er antatt å være \emph{linear}.
+\end{itemize}
+
+\vspace{6mm}
+
+Hvis den lineare relasjonen mellom \(Y\) og \(x\) er perfekt, så gjelder
+\[y_i = \beta_0 + \beta_1 x_{1i}\ \] for alle \(i\). Men..
+
+\end{frame}
+
+\begin{frame}
+
+Hvilken linje er best?
+
+\begin{center}\includegraphics[width=0.6\linewidth]{1Regresjon_files/figure-beamer/motivating3-1} \end{center}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Enkel linear regresjon}
+
+\(~\)
+
+\begin{enumerate}
+[a)]
+\tightlist
+\item
+  Kan vi tilpasse den ``rette'' linje til dataene?
+\end{enumerate}
+
+\(~\)
+
+\begin{center}\includegraphics[width=0.5\linewidth]{1Regresjon_files/figure-beamer/squares-1} \end{center}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\hat{y}_i = \hat\beta_0 + \hat\beta_1x_{1i}\).
+\item
+  \(\hat{e}_i = \hat{y}_i - y\)
+\item
+  \(\hat\beta_0\) og \(\hat\beta_1\) velges slik at
+  \[SSE = \sum_i \hat{e}_i^2\] minimeres.
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{enumerate}
+[a)]
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Kan vi tolke linja? Hvor sikkert er jeg på \(\hat\beta_1\) og linja?
+  Vi trenger antakelser, KI og hypothesetest.
+\end{enumerate}
+
+\(~\)
+
+\begin{enumerate}
+[a)]
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Fremtidige presisjoner av predikert \(y\) (kroppsfett)?
+\end{enumerate}
+
+\(~\)
+
+\end{frame}
+
+\begin{frame}{Linear regresjon -- antakelser}
+\protect\hypertarget{linear-regresjon-antakelser}{}
+
+\[Y_i = \underbrace{\beta_0 + \beta_1 x_{i1}}_{\hat{y}_i} + e_i\] med
+\[e_i \sim \textsf{N}(0,\sigma^2) \ .\]
+
+\centering
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{regrAssumptions.jpg}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Do-it-yourself ``by hand''}
+
+\vspace{6mm}
+
+Her kan du finne de beste parametrene selv: \vspace{2mm}
+
+You can do this here: \vspace{2mm}
+
+\url{https://gallery.shinyapps.io/simple_regression/}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Multippel linear regresjon}
+\protect\hypertarget{multippel-linear-regresjon}{}
+
+Nesten det samme some enkel linear regresjon, we bare summerer flere
+forklaringsvariabler:
+
+\[Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \ldots + \beta_p x_{pi} + e_i \ , \quad e_i \sim\mathsf{N}(0,\sigma^2) \ .\]
+\(~\)
+
+For eksempel:
+
+\[\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ .\]
+
+\end{frame}
+
+\begin{frame}{Regresjonsanalyse i fem steg}
+\protect\hypertarget{regresjonsanalyse-i-fem-steg}{}
+
+Vi skal bruke statmodels.api og statmodels.formula.api for lineær
+regresjon:
+
+\(~\)
+
+\textbf{Steg 1}: Bli kjent med dataene ved å se på oppsummeringsmål og
+ulike typer plott
+
+\textbf{Steg 2}: Spesifiser en matematisk modell
+
+\textbf{Steg 3}: Initialiser og tilpass modellen
+
+\textbf{Steg 4}: Presenter resultater fra den tilpassede modellen
+
+\textbf{Steg 5}: Evaluer om modellen passer til dataene
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Steg 1: Bli kjent med dataene}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Histogram og boksplott av forklaringsvariable(r) \((x_1,\ldots, x_p)\)
+  og \(y\).
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\end{document}

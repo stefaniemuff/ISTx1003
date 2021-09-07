@@ -1,0 +1,339 @@
+---
+subtitle: "ISTx1003 Statistisk læring og Data Science"
+title: "Linear regresjon (enkel og multippel)"
+author: "Stefanie Muff, Institutt for matematiske fag"
+date: "November 1 og 5, 2021"
+fontsize: 10pt
+output:
+  beamer_presentation:
+    keep_tex: yes
+    fig_caption: false
+    latex_engine: xelatex
+    theme: "Singapore"
+    colortheme: "default"
+    font: "serif"
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+urlcolor: blue
+header-includes: \usepackage{multicol}
+  # \usepackage{bm}
+ 
+
+---
+
+```{r setup, include=FALSE}
+showsolA<-TRUE
+showsolB<-TRUE
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=68),tidy=TRUE)
+knitr::opts_chunk$set(echo = TRUE,tidy=TRUE,message=FALSE,warning=FALSE,strip.white=TRUE,prompt=FALSE,
+                      cache=TRUE, size="scriptsize")
+whichformat="latex"
+```
+
+--- 
+
+
+# Plan for i dag
+
+$~$
+
+* Hvem er vi?
+
+* Statistisk læring og data science
+
+* De tre temaene i modulen: 
+  + regresjon 
+  + klassifikasjon og
+  + klyngeananlyse 
+
+* Læringsressurser og pensum
+
+* Prosjektoppgaven og Blackboard-informasjon
+
+* Tema: regresjon - med enkel lineær regresjon
+ 
+
+
+---
+
+# Læringsmål (av modulen)
+
+Etter du har gjennomført denne modulen skal du kunne:
+
+* forstå når du kan bruke regresjon, klassifikasjon og
+klyngeananlyse til å løse et ingeniørproblem
+
+* kunne gjennomføre multippel lineær regresjon på et
+datasett
+
+* bruke logistisk regresjon og nærmeste nabo for å utføre
+en klassifikasjonsoppgave
+
+* bruke hierarkisk og $k$-means klyngeanalyse på et
+datasett, forstå begrepet avstandsmål
+
+* og kunne kommunisere resultatene fra regresjon/
+klassifikasjon/klyngeanalyse til medstudenter og
+ingeniører
+
+*  bli en kritisk leser av resultater fra statistikk/maskinlæring/
+statistisk læring/data science/kunstig intelligens når disse
+rapporteres i media, og forstå om resultatene er
+realistiske ut fra informasjonen som gis
+
+*  kunne besvare prosjektoppgaven på en god måte!  
+
+---
+
+# Hva er statistisk læring og data science?
+
+Todo
+
+---
+
+# Prosjektoppgaven
+
+$~$
+
+* Vi ser hvor informasjonen ligger på Blackboard og hvordan melde seg på gruppe.
+
+$~$
+
+* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub.
+
+--- 
+
+# Læringsmål (i dag)
+
+$~$
+
+* Du kan lage en modell for å  forstå sammenhengen mellom en respons og
+en eller flere forklaringsvariabler.
+
+$~$
+
+* Du kan lage en modell for å predikere en respons
+fra en eller flere forklaringsvariabler.
+
+
+
+---
+
+# Læringsressurser
+
+\vspace{2mm}
+Alle ressurser er tilgjengelig her:
+
+https://wiki.math.ntnu.no/istx1003/2021h/start
+
+$~$
+
+Tema Regresjon:
+
+\vspace{2mm}
+
+* **Kompendium**: Regresjon (pdf og html, by Mette Langaas)
+
+* **Korte videoer**: (by Mette Langaas)
+  * Multippel lineær regresjon: introduksjon (14:07 min)
+  * Multippel lineær regresjon: analyse av et datasett (15:20 min)
+
+
+* Denne forelesningen 
+
+* **Disse slides** med notater
+
+---
+
+ 
+# Regresjon -- motiverende eksempel 
+\centering\tiny(Veiledet læring - vi kjenner responsen)
+
+\vspace{2mm}
+
+\flushleft
+\normalsize
+
+
+* Kropssfett er en viktig indikator for overvekt, men vanskelig å måle.
+
+\vspace{2mm}
+**Spørsmål:**  Hvilke faktorer tillater præsis estimering av kroppsfettet?  
+
+
+\vspace{2mm}
+Vi undersøer 243 mannlige deltakere. Kroppsfett (%), BMI og andre forklaringsvariabler ble målet. Spredningsplott:
+
+
+```{r motivating, echo=FALSE, fig.width=8, fig.height=3,fig.align = "center",out.width='100%'}
+library(dplyr)
+library(ggplot2)
+path <- "data/"
+d.bodyfat <- read.table(paste(path,"bodyfat.clean.txt",sep=""),header=T)
+d.bodyfat <- d.bodyfat[,c("bodyfat","age","gewicht","hoehe","bmi","neck","abdomen","hip")]
+names(d.bodyfat) <- c("bodyfat","age","weight","height","bmi","neck","abdomen","hip")
+
+par(mfrow=c(1,4))
+plot(bodyfat ~ bmi,d.bodyfat,xlab="bmi", ylab="bodyfat (y)")
+plot(bodyfat ~ age,d.bodyfat,xlab="age", ylab="bodyfat (y)")
+plot(bodyfat ~ neck,d.bodyfat,xlab="neck", ylab="bodyfat (y)")
+plot(bodyfat ~ hip,d.bodyfat,xlab="hip", ylab="bodyfat (y)")
+```
+ 
+---
+
+For en model for funker god for prediksjon trenger vi _multippel linear regresjon_. Men vi begynner med _enkel linear regresjon_ (bare en forklaringsvariabel):
+ 
+
+```{r motivating2, echo=FALSE, fig.width=6, fig.height=5,fig.align = "center",out.width='70%'}
+ggplot(d.bodyfat,aes(x=bmi,y=bodyfat)) + geom_point() + theme_bw() + ylab("body fat (%)")
+```
+
+---
+ 
+# Enkel linear regresjon
+
+$~$
+
+* En kontinuerlig respons variabel $Y$
+
+* Bare _en forklaringsvariable_ $x_1$ 
+
+* Relasjon mellom $Y$ og $x$ er antatt å være _linear_. 
+
+\vspace{6mm}
+Hvis den lineare relasjonen mellom $Y$ og $x$ er perfekt, så gjelder
+$$y_i = \beta_0 + \beta_1 x_{1i}\ $$
+for alle $i$. Men..
+
+---
+
+Hvilken linje er best?
+
+```{r motivating3, echo=FALSE, fig.width=5, fig.height=4,fig.align = "center",out.width='60%'}
+ggplot(d.bodyfat,aes(x=bmi,y=bodyfat)) + geom_point() + theme_bw() + ylab("body fat (%)")  + 
+  geom_abline(intercept = -25, slope = 1.7, color="red",   size=0.6) +
+  geom_abline(intercept = -35, slope = 2.1, color="green",    size=0.6) +
+geom_abline(intercept = -36, slope = 2.25, color="blue",    size=0.6) 
+``` 
+ 
+ 
+---
+
+## Enkel linear regresjon
+
+$~$
+
+a) Kan vi tilpasse den "rette" linje til dataene?
+
+$~$
+
+```{r squares, echo=FALSE, fig.width=6.0, fig.height=5,fig.align = "center",out.width='50%'}
+set.seed(9670)
+n <- 10
+x <- rnorm(n)
+y <- 4 - 2*x + rnorm(n,0,sd=1)
+x[11]  <- -0.5
+y[11] <- 6.2
+dd <- 0.38
+from_x <- c(x[11],x[11],x[11]+dd,x[11] + dd) 
+from_y <- c(y[11],(4-2*x[11]),(4-2*x[11]),y[11])
+
+to_x <- c(x[11],x[11] + dd,x[11]+ dd,x[11])
+to_y <- c(4-2*x[11],4-2*x[11],y[11], y[11])
+
+plot(x,y)
+abline(c(4,-2),lwd=2)
+polygon(from_x,from_y,to_x,to_y,col=2,lwd=2)
+```
+
+
+
+* $\hat{y}_i = \hat\beta_0 + \hat\beta_1x_{1i}$.
+* $\hat{e}_i = \hat{y}_i - y$
+* $\hat\beta_0$ og $\hat\beta_1$ velges slik at $$SSE = \sum_i \hat{e}_i^2$$ minimeres.
+
+---
+
+
+b) Kan vi tolke linja? Hvor sikkert er jeg på $\hat\beta_1$ og linja? Vi trenger antakelser, KI og hypothesetest.
+
+$~$
+
+c) Fremtidige presisjoner av predikert $y$ (kroppsfett)?
+
+$~$
+
+ 
+
+
+---
+
+# Linear regresjon -- antakelser
+
+$$Y_i = \underbrace{\beta_0 + \beta_1 x_{i1}}_{\hat{y}_i} + e_i$$
+med $$e_i \sim \textsf{N}(0,\sigma^2) \ .$$
+
+\centering 
+![](regrAssumptions.jpg){width=70%}
+
+
+
+
+
+---
+
+## Do-it-yourself "by hand"
+
+\vspace{6mm}
+
+Her kan du finne de beste parametrene selv: 
+\vspace{2mm}
+
+You can do this here:
+\vspace{2mm}
+
+<https://gallery.shinyapps.io/simple_regression/>
+
+---
+
+# Multippel linear regresjon
+
+Nesten det samme some enkel linear regresjon, we bare summerer flere forklaringsvariabler:
+
+$$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \ldots + \beta_p x_{pi} + e_i \ , \quad e_i \sim\mathsf{N}(0,\sigma^2) \ .$$
+$~$
+
+For eksempel:
+
+$$\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ .$$
+
+--- 
+
+# Regresjonsanalyse i fem steg
+
+Vi skal bruke statmodels.api og statmodels.formula.api for lineær
+regresjon:
+
+$~$
+
+**Steg 1**: Bli kjent med dataene ved å se på oppsummeringsmål og ulike typer plott
+
+**Steg 2**: Spesifiser en matematisk modell
+
+**Steg 3**: Initialiser og tilpass modellen
+
+**Steg 4**: Presenter resultater fra den tilpassede modellen
+
+**Steg 5**: Evaluer om modellen passer til dataene
+
+---
+
+## Steg 1: Bli kjent med dataene
+
+$~$
+
+* Histogram og boksplott av forklaringsvariable(r) $(x_1,\ldots, x_p)$ og $y$.
