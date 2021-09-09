@@ -427,7 +427,15 @@ forklaringsvariabler:
 
 For eksempel:
 
-\[\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ .\]
+\[\text{bodyfat}_i = \beta_0 + \beta_1 \text{bmi}_i + \beta_2 \text{age}_i + e_i \ .\]
+
+\end{frame}
+
+\begin{frame}
+
+\centering
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{multippelRegGraph.png}
 
 \end{frame}
 
@@ -444,7 +452,7 @@ ulike typer plott
 
 \textbf{Steg 2}: Spesifiser en matematisk modell
 
-\textbf{Steg 3}: Initialiser og tilpass modellen
+\textbf{Steg 3}: Tilpass modellen
 
 \textbf{Steg 4}: Presenter resultater fra den tilpassede modellen
 
@@ -458,14 +466,339 @@ ulike typer plott
 
 \(~\)
 
+Vi kan for eksempel se på histogram og boxplot:
+
+\(~\)
+
+\begin{center}\includegraphics[width=0.75\linewidth]{1Regresjon_files/figure-beamer/unnamed-chunk-1-1} \end{center}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+Ellers en \emph{parplot} med kryssplotter for alle
+forklaringsvariable(r) \((x_1,\ldots, x_p)\) og respons \(y\):
+
+\(~\)
+
+\begin{center}\includegraphics[width=0.75\linewidth]{1Regresjon_files/figure-beamer/plots-1} \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\scriptsize
+
+\begin{verbatim}
+##     bodyfat           age            weight           height     
+##  Min.   : 0.70   Min.   :22.00   Min.   : 56.75   Min.   :162.6  
+##  1st Qu.:12.50   1st Qu.:35.50   1st Qu.: 72.30   1st Qu.:173.7  
+##  Median :19.20   Median :43.00   Median : 80.02   Median :177.8  
+##  Mean   :19.11   Mean   :44.83   Mean   : 80.91   Mean   :178.5  
+##  3rd Qu.:25.20   3rd Qu.:54.00   3rd Qu.: 89.32   3rd Qu.:183.5  
+##  Max.   :47.50   Max.   :81.00   Max.   :119.29   Max.   :196.8  
+##       bmi             neck          abdomen            hip        
+##  Min.   :19.06   Min.   :31.10   Min.   : 70.40   Min.   : 85.30  
+##  1st Qu.:23.07   1st Qu.:36.40   1st Qu.: 84.90   1st Qu.: 95.55  
+##  Median :25.10   Median :38.00   Median : 91.00   Median : 99.30  
+##  Mean   :25.34   Mean   :37.96   Mean   : 92.38   Mean   : 99.69  
+##  3rd Qu.:27.34   3rd Qu.:39.40   3rd Qu.: 99.15   3rd Qu.:103.15  
+##  Max.   :39.12   Max.   :43.90   Max.   :126.20   Max.   :125.60
+\end{verbatim}
+
+\(~\)
+
+\normalsize
+
+I Python får du en oppsummering av datasettet (\texttt{df}) med
+\texttt{df.describe()}.
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{block}{Steg 2: Spesifiser modell}
+
+\(~\)
+
+Nå må vi spesifisere en modell med å velge hvile forklaringsvariabler vi
+vil bruke
+
+\[ y \sim x_1 + x_2 + x_3 \ .\]
+
+\(~\)
+
+\textbf{Eksempel 1}:
+
+\[\text{bodyfat} \sim \text{bmi} \] hvis den matematiske modellen er
+\[\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + e_i \ , \] \(~\)
+\textbf{Eksempel 2}:
+
+\[\text{bodyfat} \sim \text{bmi} + \text{age}\] hvis den matematiske
+modellen er
+\[\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ . \]
+
+Python eksempel:
+\texttt{formel=\textquotesingle{}bodyfat\ \textasciitilde{}\ bmi\ +\ age\textquotesingle{}}.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Steg 3: Tilpass modellen}
+
+\(~\)
+
+``Tilpasse'' betyr:
+
+\(~\)
+
 \begin{itemize}
 \tightlist
 \item
-  Histogram og boksplott av forklaringsvariable(r) \((x_1,\ldots, x_p)\)
-  og \(y\).
+  Vi estimerer \(\beta_0\), \(\beta_1\), \ldots{} , og vi får estimater
+  \(\hat\beta_0\), \(\hat\beta_1\),\ldots{}
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Vi også estimerer \(\sigma^2\).
 \end{itemize}
 
 \end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Steg 4: Resultat og tolkning av estimatene}
+
+\(~\)
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result.png}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+Todo: add prediction interval
+
+\includegraphics[width=0.8\textwidth,height=\textheight]{ols_result_plot.png}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Steg 5: Passer modellen?}
+
+\(~\)
+
+\textbf{Tukey-Anscome diagram}:
+
+\(~\)
+
+\centering
+
+\includegraphics[width=0.6\textwidth,height=\textheight]{tukeyAnscombe1.png}
+
+\flushleft
+
+Her vil man
+
+\begin{itemize}
+\tightlist
+\item
+  Ikke noe struktur
+\item
+  Sentrering rundt 0 verdi
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\(~\)
+
+\textbf{Kvantil-kvantil plot}:
+
+\(~\)
+
+\centering
+
+\includegraphics[width=0.6\textwidth,height=\textheight]{kvantilplot.png}
+
+\flushleft
+
+Her vil man at observasjoner ligger mer og mindre på linja.
+
+\end{frame}
+
+\begin{frame}
+
+Hvordan ser det ut når en modell \emph{ikke} passer?
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Multippel linear regresjon}
+
+\(~\)
+
+Gjenta samme analyse med to kovariabler
+
+\(~\)
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_2.png}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+Med fem kovariabler:
+
+\includegraphics[width=0.65\textwidth,height=\textheight]{ols_result_all.png}
+
+Hva betyr alt dette?
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{coef}: \(\hat\beta_j\)
+\item
+  \texttt{std\ err}: \(\hat\text{SE}(\hat\beta_j)\)
+\item
+  \texttt{t}: \(\frac{\hat\beta_j-0}{\text{SE}(\hat\beta_j)}\)
+\item
+  \texttt{P\textgreater{}\textbar{}t\textbar{}}: \(p\)-verdi
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{block}{Hva betyr alt dette?}
+
+\vspace{2mm}
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_all_coefs.png}
+
+\vspace{2mm}
+
+Prediksjon:
+
+\vspace{2mm}
+
+\(\hat{y}=\)
+
+\vspace{10mm}
+
+Prediker bodyfat for en ny person med\\
+\texttt{bmi=25}, \texttt{age=50}, \texttt{weight=75}, \texttt{neck=40},
+\texttt{abdomen=95}:
+
+\vspace{2mm}
+
+\(\hat{y}=\)
+
+\(~\)
+
+= 21.88
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_all_coefs.png}
+
+\vspace{2mm}
+
+\begin{itemize}
+\item
+  Hva betyr \(\hat\beta_0\)?
+\item
+  Hva betyr \(\hat\beta_{abdomen}=0.89\)?
+\end{itemize}
+
+\vspace{20mm}
+
+\end{frame}
+
+\begin{frame}
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_all_coefs.png}
+
+\vspace{5mm}
+
+\begin{itemize}
+\item
+  95\% konfidensintervall: Intervall vi har stor tro at den inneholder
+  den sanne \(\beta_j\).
+\item
+  \([\hat\beta_j \pm \underbrace{t_{\alpha/2,df}}_{\approx 1.96}\cdot \text{SE}(\hat\beta_j)]\)
+\end{itemize}
+
+\vspace{20mm}
+
+\end{frame}
+
+\begin{frame}
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_all_coefs.png}
+
+\vspace{5mm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(p\)-verdier og hypotesetester
+\end{itemize}
+
+\vspace{20mm}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Recap: Formell definisjon av \(p\)-verdien}
+
+\(~\)
+
+\textbf{\(p\)-verdien} er sannsynligheten for det vi \emph{har}
+observert eller noe mer ekstremt, dersom \(H_0\) er sann.
+
+\vspace{3mm}
+
+\begin{center}\includegraphics[width=1\linewidth]{1Regresjon_files/figure-beamer/pValFig2-1} \end{center}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{\(R^2\)}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
 
 \end{frame}
 

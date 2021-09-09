@@ -24,8 +24,6 @@ header-includes: \usepackage{multicol}
 ---
 
 ```{r setup, include=FALSE}
-showsolA<-TRUE
-showsolB<-TRUE
 library(knitr)
 opts_chunk$set(tidy.opts=list(width.cutoff=68),tidy=TRUE)
 knitr::opts_chunk$set(echo = TRUE,tidy=TRUE,message=FALSE,warning=FALSE,strip.white=TRUE,prompt=FALSE,
@@ -309,7 +307,12 @@ $~$
 
 For eksempel:
 
-$$\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ .$$
+$$\text{bodyfat}_i = \beta_0 + \beta_1 \text{bmi}_i + \beta_2 \text{age}_i + e_i \ .$$
+
+---
+
+\centering
+![](multippelRegGraph.png){width=70%}
 
 --- 
 
@@ -324,7 +327,7 @@ $~$
 
 **Steg 2**: Spesifiser en matematisk modell
 
-**Steg 3**: Initialiser og tilpass modellen
+**Steg 3**: Tilpass modellen
 
 **Steg 4**: Presenter resultater fra den tilpassede modellen
 
@@ -336,4 +339,298 @@ $~$
 
 $~$
 
-* Histogram og boksplott av forklaringsvariable(r) $(x_1,\ldots, x_p)$ og $y$.
+Vi kan for eksempel se på histogram og boxplot:
+
+$~$
+
+```{r , echo=FALSE, fig.width=9, fig.height=7.5,fig.align = "center", out.width='75%'}
+library(MASS)
+par(mfrow=c(2,2))
+truehist(d.bodyfat$bodyfat,nbin=50,xlab="bodyfat",ylab="density")
+boxplot(d.bodyfat$bodyfat,main="bodyfat")
+
+truehist(d.bodyfat$bmi,nbin=50,xlab="bmi",ylab="density")
+boxplot(d.bodyfat$bmi,main="bmi")
+```
+
+---
+
+Ellers en _parplot_ med kryssplotter for alle forklaringsvariable(r) $(x_1,\ldots, x_p)$ og respons $y$:
+
+$~$
+
+```{r plots, echo=FALSE, fig.width=9, fig.height=7.5,fig.align = "center", out.width='75%'}
+library(GGally)
+ 
+ggpairs(d.bodyfat[,c("bodyfat","age","weight","height","bmi","neck","abdomen","hip")],aes(alpha = 0.5)) + theme_bw()
+```
+
+---
+
+\scriptsize 
+
+```{r, echo=FALSE, fig.width=6, fig.height=5,fig.align = "center", out.width='75%'}
+summary(d.bodyfat)
+```
+
+$~$
+
+\normalsize
+
+I Python får du en oppsummering av datasettet (`df`) med `df.describe()`.
+
+
+---
+
+## Steg 2: Spesifiser modell
+
+$~$
+
+Nå må vi spesifisere en modell med å velge hvile forklaringsvariabler vi vil bruke
+
+$$ y \sim x_1 + x_2 + x_3 \ .$$
+
+$~$
+
+**Eksempel 1**:
+
+$$\text{bodyfat} \sim \text{bmi} $$ 
+hvis den matematiske modellen er 
+$$\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + e_i \ , $$
+$~$
+**Eksempel 2**:
+
+$$\text{bodyfat} \sim \text{bmi} + \text{age}$$ 
+hvis den matematiske modellen er 
+$$\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ . $$
+
+Python eksempel: `formel='bodyfat ~ bmi + age'`.
+
+---
+
+## Steg 3: Tilpass modellen
+
+$~$
+
+"Tilpasse" betyr: 
+
+$~$
+
+* Vi estimerer $\beta_0$, $\beta_1$, ... , og vi får estimater $\hat\beta_0$, $\hat\beta_1$,...
+
+$~$
+
+* Vi også estimerer $\sigma^2$.
+
+---
+
+## Steg 4: Resultat og tolkning av estimatene
+
+$~$
+
+![](ols_result.png){width=70%}
+
+---
+
+Todo: add prediction interval
+
+![](ols_result_plot.png){width=80%}
+
+---
+
+## Steg 5: Passer modellen?
+
+$~$
+
+**Tukey-Anscome diagram**:
+
+$~$
+
+\centering
+![](tukeyAnscombe1.png){width=60%}
+
+\flushleft
+Her vil man
+
+* Ikke noe struktur
+* Sentrering rundt 0 verdi
+
+---
+
+$~$
+
+**Kvantil-kvantil plot**:
+
+$~$
+
+\centering
+![](kvantilplot.png){width=60%}
+
+\flushleft
+Her vil man at observasjoner ligger mer og mindre på linja.
+
+---
+
+Hvordan ser det ut når en modell _ikke_ passer?
+
+---
+
+## Multippel linear regresjon
+
+$~$
+
+Gjenta samme analyse med to kovariabler
+
+$~$
+
+![](ols_result_2.png){width=70%}
+
+---
+
+Med fem kovariabler:
+
+![](ols_result_all.png){width=65%}
+
+Hva betyr alt dette?
+
+* `coef`: $\hat\beta_j$
+* `std err`: $\hat\text{SE}(\hat\beta_j)$
+* `t`: $\frac{\hat\beta_j-0}{\text{SE}(\hat\beta_j)}$
+* `P>|t|`: $p$-verdi
+
+---
+
+
+
+## Hva betyr alt dette?
+
+\vspace{2mm}
+
+![](ols_result_all_coefs.png){width=70%}
+
+\vspace{2mm}
+
+Prediksjon:
+
+\vspace{2mm}
+
+$\hat{y}=$
+
+\vspace{10mm}
+
+Prediker bodyfat for en ny person med  
+`bmi=25`, `age=50`, `weight=75`, `neck=40`, `abdomen=95`:
+
+\vspace{2mm}
+
+
+
+$\hat{y}=$   
+
+$~$
+
+= 21.88
+
+
+<!-- ```{r,echo=FALSE,eval=TRUE,message=FALSE} -->
+<!-- r.lm <- lm(bodyfat ~ bmi + age + weight  + neck + abdomen ,d.bodyfat) -->
+<!-- x.new <- data.frame(bmi=25, age=50,weight=75, neck=40,abdomen=95) -->
+<!-- predict(r.lm,newdata=x.new) -->
+<!-- ``` -->
+
+---
+
+![](ols_result_all_coefs.png){width=70%}
+
+\vspace{2mm}
+
+* Hva betyr $\hat\beta_0$?
+
+* Hva betyr $\hat\beta_{abdomen}=0.89$?
+
+
+\vspace{20mm}
+
+---
+
+![](ols_result_all_coefs.png){width=70%}
+
+\vspace{5mm}
+
+* 95% konfidensintervall: Intervall vi har stor tro at den inneholder den sanne $\beta_j$.
+
+* $[\hat\beta_j \pm \underbrace{t_{\alpha/2,df}}_{\approx 1.96}\cdot \text{SE}(\hat\beta_j)]$
+
+\vspace{20mm}
+
+---
+
+![](ols_result_all_coefs.png){width=70%}
+
+\vspace{5mm}
+
+* $p$-verdier og hypotesetester
+
+\vspace{20mm}
+
+---
+
+## Recap: Formell definisjon av $p$-verdien
+
+$~$
+
+**$p$-verdien** er sannsynligheten for det vi _har_ observert eller noe mer ekstremt, dersom $H_0$ er sann. 
+
+\vspace{5mm}
+
+ 
+
+```{r pValFig2, echo=FALSE, fig.width=8, fig.height=4,fig.align = "center",out.width='100%'}
+par(mfrow=c(1,2))
+
+limit <- 3.5
+
+zz1 <- qnorm(0.025)
+zz2 <- qnorm(0.975)
+zz3 <- qnorm(0.025)
+
+cord.x1 <- c(-limit,seq(-limit,zz1,0.01),zz1)
+cord.y1 <- c(0,dnorm(seq(-limit,zz1,0.01)),0)
+
+cord.x2 <- c(zz2,seq(zz2,limit,0.01),3)
+cord.y2 <- c(0,dnorm(seq(zz2,limit,0.01)),0)
+
+curve(dnorm(x,0,1),-limit,limit,ylab="density",main="",xlab="z",cex.main=0.8)
+title("p=0.05",line=0.8)
+polygon(cord.x1,cord.y1,col='gray')
+polygon(cord.x2,cord.y2,col='gray')
+text(-3,0.05,labels="0.025")
+text(3,0.05,labels="0.025")
+abline(v=1.96,col=2,lty=2,lwd=2)
+text(2.9,0.3,labels=expression(paste(tilde(z)," =1.96")))
+
+zz1 <- qnorm(0.2)
+zz2 <- qnorm(0.8)
+zz3 <- qnorm(0.2)
+
+cord.x1 <- c(-limit,seq(-limit,zz1,0.01),zz1)
+cord.y1 <- c(0,dnorm(seq(-limit,zz1,0.01)),0)
+
+cord.x2 <- c(zz2,seq(zz2,limit,0.01),3)
+cord.y2 <- c(0,dnorm(seq(zz2,limit,0.01)),0)
+
+curve(dnorm(x,0,1),-limit,limit,ylab="density",main="",xlab="z",cex.main=0.7)
+title("p=0.40",line=0.8)
+polygon(cord.x1,cord.y1,col='gray')
+polygon(cord.x2,cord.y2,col='gray')
+text(-2.5,0.08,labels="0.2")
+text(2.5,0.08,labels="0.2")
+abline(v=-0.84,col=2,lty=2,lwd=2)
+text(-2,0.3,labels=expression(paste(tilde(z)," =-0.84")))
+```
+
+---
+
+## $R^2$
+
+---
