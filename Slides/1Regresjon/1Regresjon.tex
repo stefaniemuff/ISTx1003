@@ -285,8 +285,8 @@ kroppsfettet?
 
 \vspace{2mm}
 
-Vi undersøer 243 mannlige deltakere. Kroppsfett (\%), BMI og andre
-forklaringsvariabler ble målet. Spredningsplott:
+Vi undersøker 243 mannlige deltakere. Kroppsfett (\%), BMI og andre
+forklaringsvariabler ble målet. Kryssplott:
 
 \begin{center}\includegraphics[width=1\linewidth]{1Regresjon_files/figure-beamer/motivating-1} \end{center}
 
@@ -311,9 +311,9 @@ linear regresjon}. Men vi begynner med \emph{enkel linear regresjon}
 \item
   En kontinuerlig respons variabel \(Y\)
 \item
-  Bare \emph{en forklaringsvariable} \(x_1\)
+  Bare \emph{en forklaringsvariabel} \(x_1\)
 \item
-  Relasjon mellom \(Y\) og \(x\) er antatt å være \emph{linear}.
+  Relasjon mellom \(Y\) og \(x_1\) er antatt å være \emph{linear}.
 \end{itemize}
 
 \vspace{6mm}
@@ -419,7 +419,7 @@ You can do this here: \vspace{2mm}
 \begin{frame}{Multippel linear regresjon}
 \protect\hypertarget{multippel-linear-regresjon}{}
 
-Nesten det samme some enkel linear regresjon, we bare summerer flere
+Nesten det samme some enkel linear regresjon, vi bare summerer flere
 forklaringsvariabler:
 
 \[Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \ldots + \beta_p x_{pi} + e_i \ , \quad e_i \sim\mathsf{N}(0,\sigma^2) \ .\]
@@ -528,7 +528,7 @@ vil bruke
 
 \[ y \sim x_1 + x_2 + x_3 \ .\]
 
-\(~\)
+\vspace{2mm}
 
 \textbf{Eksempel 1}:
 
@@ -584,15 +584,23 @@ Python eksempel:
 
 \includegraphics[width=0.7\textwidth,height=\textheight]{ols_result.png}
 
+\vspace{20mm}
+
 \end{block}
 
 \end{frame}
 
 \begin{frame}
 
-Todo: add prediction interval
+\begin{itemize}
+\item
+  Tilpasset regressjonslinie og 95\% konfidensintervall for
+  regressjonslinia.
+\item
+  95\% prediksjonsintervall for nye personer (handtegnet)
+\end{itemize}
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{ols_result_plot.png}
+\includegraphics[width=0.75\textwidth,height=\textheight]{ols_result_plot.png}
 
 \end{frame}
 
@@ -648,6 +656,8 @@ Her vil man at observasjoner ligger mer og mindre på linja.
 
 Hvordan ser det ut når en modell \emph{ikke} passer?
 
+\begin{center}\includegraphics[width=0.75\linewidth]{1Regresjon_files/figure-beamer/unnamed-chunk-4-1} \end{center}
+
 \end{frame}
 
 \begin{frame}
@@ -661,6 +671,8 @@ Gjenta samme analyse med to kovariabler
 \(~\)
 
 \includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_2.png}
+
+\vspace{20mm}
 
 \end{block}
 
@@ -782,7 +794,7 @@ Prediker bodyfat for en ny person med\\
 \textbf{\(p\)-verdien} er sannsynligheten for det vi \emph{har}
 observert eller noe mer ekstremt, dersom \(H_0\) er sann.
 
-\vspace{3mm}
+\vspace{5mm}
 
 \begin{center}\includegraphics[width=1\linewidth]{1Regresjon_files/figure-beamer/pValFig2-1} \end{center}
 
@@ -792,13 +804,180 @@ observert eller noe mer ekstremt, dersom \(H_0\) er sann.
 
 \begin{frame}
 
-\begin{block}{\(R^2\)}
+\begin{block}{\(R^2\) og justert \(R^2\)}
+
+\(~\)
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{ols_result_all_header.png}
+
+\[R^2 = \frac{\text{TSS}-\text{SSE}}{\text{TSS}}= 1-\frac{\text{SSE}}{\text{TSS}}=1-\frac{\sum_{i=1}^n(y_i-\hat{y}_i)^2}{\sum_{i=1}^n(y_i-\bar{y}_i)^2}, \]
+
+med \[\text{TSS} = \sum_{i=1}^n (y_i - \bar{y})^2\] som måler den totale
+variabiliteten i \((y_1,\ldots , y_n)\).
+
+\vspace{2mm}
+
+\textbf{Men}: For modellvalg bruker vi en justert versjon:
+
+\[R^2_{adj} = 1-(1-R^2 )\frac{n-1}{n-m-1}\]
 
 \end{block}
 
 \end{frame}
 
 \begin{frame}
+
+\begin{block}{TA og kvantil-kvantil plot}
+
+\(~\)
+
+\(~\)
+
+\includegraphics[width=0.45\textwidth,height=\textheight]{ta2.png}
+\includegraphics[width=0.45\textwidth,height=\textheight]{qq2.png}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Binære forklaringsvariabler}
+
+\(~\)
+
+Den enkleste modellen er
+
+\[y_i = \beta_0 + \beta_1 x_{1i} + e_i \ .\] \(~\)
+
+Hva betyr det når \(x_{1i}\) er enten 0 eller 1 (binær)?
+
+\[
+\begin{array}{ll}
+ \beta_0  + e_i \quad &\text{ hvis  } x_{1i}=0 \\
+ \beta_0 + \beta_1 + e_i \quad &\text{ hvis  } x_{1i} =1\\
+\end{array}
+\]
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Eksempel: Studie om kvikksølv (Hg)}
+
+\(~\)
+
+Modell:
+
+\[
+\log(Hg_{urin})_i  = \beta_0 +  \beta_1 \cdot x_{1i} +  \beta_2\cdot x_{2i} + \beta_3 \cdot x_{3i} + e_i \ ,
+\] \(~\)
+
+Med
+
+\begin{itemize}
+\tightlist
+\item
+  \(\log(Hg_{urin})\): log konsentrasjon av Hg i urin.
+\item
+  \(x_{1}\) binær variabel som er 1 hvis person røyker, ellers 0.
+\item
+  \(x_{2}\) antall amalgam fillinger i tennene
+\item
+  \(x_{3}\) antall fiskemåltider per måned.
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Interpretasjon av regresjon med binær variabel}
+
+\(~\)
+
+\includegraphics[width=0.8\textwidth,height=\textheight]{binaer_variabel.png}
+
+\(~\)
+
+Modell for røyker:
+
+\vspace{15mm}
+
+Modell for non-røyker:
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{block}{Kategoriske forklaringsvariabler}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Vi gjør ting enda mer fleksibel (eller komplisert!) når vi også
+  tillater kategoriske forklaringsvariabler.
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Eksempel med 3 kategorier: Bil dataset med \(y\)=bensinforbruk og
+  forklaringsvariabler \texttt{vekt} og
+  \texttt{origin}\(\in \{\text{American,European,Japanese}\}\).
+\end{itemize}
+
+\centering
+
+\vspace{4mm}
+
+\texttt{formel=\textquotesingle{}mpg\ \textasciitilde{}\ \ vekt\ +\ origin\textquotesingle{}}
+
+\flushleft
+
+\vspace{4mm}
+
+\begin{itemize}
+\item
+  Ide: dummy-variabel koding -- kalles \emph{one-hot koding} i
+  maskinlæring.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(x_{2i}=0\) og \(x_{3i}=0\) hvis \texttt{origin} er ``American''
+  \item
+    \(x_{2i}=1\) og \(x_{3i}=0\) hvis \texttt{origin} er ``European''
+  \item
+    \(x_{2i}=0\) og \(x_{3i}=1\) hvis \texttt{origin} er ``Japanese''
+  \end{itemize}
+\end{itemize}
+
+\vspace{4mm}
+
+Modellen:
+\(y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i} + e_i\)
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\includegraphics{kategorisk_variabel.png}
+
+\(~\)
+
+Så hva er modellene for de tre opprinnelsen (\texttt{origin}) av bilene?
 
 \end{frame}
 

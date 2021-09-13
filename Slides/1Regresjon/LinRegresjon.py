@@ -89,15 +89,25 @@ plt.xlabel("Kvantiler i normalfordelingen")
 plt.show()
 
 
+# Derive intercept b and slope m
+# m, b = np.polyfit(df['bmi'],df['bodyfat'], 1)
+# sns.relplot(x = 'bmi', y = 'bodyfat', kind = 'scatter', data = df)
+# plt.plot(x, m*x + b)
+# plt.show()
+
+sns.regplot(df['bmi'],df['bodyfat'])
+
+
+#########################################################
 ## Multiple linear regression
 # Kryssplott av Hoeyde mot Blodceller, Vekt mot Blodceller og Hoeyde mot Vekt.
 # På diagonalen er glattede histogrammer (tetthetsplott) av  Blodceller, Hoeyde og Vekt
-
+#########################################################
 
 
 ## Tilpass multippel linear regresjon (2 variabler):
     
-formel='bodyfat ~ bmi + age'
+formel='bodyfat ~ bmi + age '
 
 # Steg 3: Initaliser og tilpass en enkel lineær regresjonsmodell
 # først initialisere
@@ -110,7 +120,7 @@ print(resultat.summary())
     
 ## Tilpass multippel linear regresjon (alle variabler):
 
-formel='bodyfat ~ bmi + age + weight + neck + abdomen + hip'
+formel='bodyfat ~ bmi + age + weight  + neck + abdomen '
 
 # Steg 3: Initaliser og tilpass en enkel lineær regresjonsmodell
 # først initialisere
@@ -122,13 +132,7 @@ resultat = modell.fit()
 print(resultat.summary())
 
 
-# Derive intercept b and slope m
-# m, b = np.polyfit(df['bmi'],df['bodyfat'], 1)
-# sns.relplot(x = 'bmi', y = 'bodyfat', kind = 'scatter', data = df)
-# plt.plot(x, m*x + b)
-# plt.show()
 
-sns.regplot(df['bmi'],df['bodyfat'])
 
 
 ## Model checking

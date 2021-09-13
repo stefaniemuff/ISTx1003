@@ -163,7 +163,7 @@ Tema Regresjon:
 
 
 \vspace{2mm}
-Vi undersøer 243 mannlige deltakere. Kroppsfett (%), BMI og andre forklaringsvariabler ble målet. Spredningsplott:
+Vi undersøker 243 mannlige deltakere. Kroppsfett (%), BMI og andre forklaringsvariabler ble målet. Kryssplott:
 
 
 ```{r motivating, echo=FALSE, fig.width=8, fig.height=3,fig.align = "center",out.width='100%'}
@@ -198,9 +198,9 @@ $~$
 
 * En kontinuerlig respons variabel $Y$
 
-* Bare _en forklaringsvariable_ $x_1$ 
+* Bare _en forklaringsvariabel_ $x_1$ 
 
-* Relasjon mellom $Y$ og $x$ er antatt å være _linear_. 
+* Relasjon mellom $Y$ og $x_1$ er antatt å være _linear_. 
 
 \vspace{6mm}
 Hvis den lineare relasjonen mellom $Y$ og $x$ er perfekt, så gjelder
@@ -300,7 +300,7 @@ You can do this here:
 
 # Multippel linear regresjon
 
-Nesten det samme some enkel linear regresjon, we bare summerer flere forklaringsvariabler:
+Nesten det samme some enkel linear regresjon, vi bare summerer flere forklaringsvariabler:
 
 $$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \ldots + \beta_p x_{pi} + e_i \ , \quad e_i \sim\mathsf{N}(0,\sigma^2) \ .$$
 $~$
@@ -390,7 +390,7 @@ Nå må vi spesifisere en modell med å velge hvile forklaringsvariabler vi vil 
 
 $$ y \sim x_1 + x_2 + x_3 \ .$$
 
-$~$
+\vspace{2mm}
 
 **Eksempel 1**:
 
@@ -430,11 +430,15 @@ $~$
 
 ![](ols_result.png){width=70%}
 
+\vspace{20mm}
+
 ---
 
-Todo: add prediction interval
+* Tilpasset regressjonslinie og 95% konfidensintervall for regressjonslinia.
 
-![](ols_result_plot.png){width=80%}
+* 95% prediksjonsintervall for nye personer (handtegnet)
+
+![](ols_result_plot.png){width=75%}
 
 ---
 
@@ -473,6 +477,21 @@ Her vil man at observasjoner ligger mer og mindre på linja.
 
 Hvordan ser det ut når en modell _ikke_ passer?
 
+
+```{r,echo=FALSE}
+d.hg <- read.table("data/Hg_urin.csv",header=T, sep=",")
+d.hg <- d.hg[d.hg$mother==1,-c(3,4,9,10,11)]
+names(d.hg) <- c("Hg_urin", "Hg_soil", "smoking","amalgam", "age", "fish")
+r.lm <- lm(Hg_urin ~ Hg_soil + smoking + amalgam, d.hg)
+```
+
+```{r, echo=FALSE, fig.width=8, fig.height=4.5,fig.align = "center", out.width='75%'}
+par(mfrow=c(1,2))
+plot(r.lm$residuals ~ r.lm$fitted,main="TA plott",xlab="Predikert verdi",ylab="Residual")
+qqnorm(r.lm$residuals,main="KK-plott",xlab = "Kvantiler i normalfordelingen", ylab="Kvantiler i residualene")
+qqline(r.lm$residuals)
+```
+
 ---
 
 ## Multippel linear regresjon
@@ -484,6 +503,8 @@ Gjenta samme analyse med to kovariabler
 $~$
 
 ![](ols_result_2.png){width=70%}
+
+\vspace{20mm}
 
 ---
 
@@ -631,6 +652,148 @@ text(-2,0.3,labels=expression(paste(tilde(z)," =-0.84")))
 
 ---
 
-## $R^2$
+## $R^2$ og justert $R^2$
+
+$~$
+
+![](ols_result_all_header.png){width=70%}
+
+$$R^2 = \frac{\text{TSS}-\text{SSE}}{\text{TSS}}= 1-\frac{\text{SSE}}{\text{TSS}}=1-\frac{\sum_{i=1}^n(y_i-\hat{y}_i)^2}{\sum_{i=1}^n(y_i-\bar{y}_i)^2}, $$ 
+
+med $$\text{TSS} = \sum_{i=1}^n (y_i - \bar{y})^2$$ som måler den totale variabiliteten i $(y_1,\ldots , y_n)$. 
+
+\vspace{2mm}
+
+**Men**: For modellvalg bruker vi en justert versjon:
+
+$$R^2_{adj} = 1-(1-R^2 )\frac{n-1}{n-m-1}$$
 
 ---
+
+## TA og kvantil-kvantil plot
+
+$~$
+
+$~$
+
+![](ta2.png){width=45%}
+![](qq2.png){width=45%}
+
+<!-- ```{r eval=TRUE,echo=FALSE,fig.width=9, fig.height=5,fig.align = "center",out.width='90%'} -->
+<!-- r.lm <- lm(bodyfat ~ bmi + age + weight  + neck + abdomen,d.bodyfat) -->
+<!-- par(mfrow=(c(1,2))) -->
+<!-- plot(r.lm$residuals~ r.lm$fitted,ylab="Residuals",xlab="Predikert verdi",main="Tukey-Anscombe plot",col="blue") -->
+<!-- abline(h=0,lty=2) -->
+<!-- qqnorm(r.lm$residuals,main="Kvantil-kvantil plot") -->
+<!-- qqline(r.lm$residuals) -->
+<!-- ``` -->
+
+---
+
+## Binære forklaringsvariabler
+
+$~$
+
+Den enkleste modellen er
+
+$$y_i = \beta_0 + \beta_1 x_{1i} + e_i \ .$$
+$~$
+
+Hva betyr det når $x_{1i}$ er enten 0 eller 1 (binær)? 
+
+$$
+\begin{array}{ll}
+ \beta_0  + e_i \quad &\text{ hvis  } x_{1i}=0 \\
+ \beta_0 + \beta_1 + e_i \quad &\text{ hvis  } x_{1i} =1\\
+\end{array}
+$$
+
+--- 
+
+## Eksempel: Studie om kvikksølv (Hg)
+
+$~$
+
+Modell:
+
+ 
+$$
+\log(Hg_{urin})_i  = \beta_0 +  \beta_1 \cdot x_{1i} +  \beta_2\cdot x_{2i} + \beta_3 \cdot x_{3i} + e_i \ ,
+$$
+$~$
+
+
+Med 
+
+* $\log(Hg_{urin})$: log konsentrasjon av Hg i urin.
+* $x_{1}$ binær variabel som er 1 hvis person røyker, ellers 0. 
+* $x_{2}$ antall amalgam fillinger i tennene
+* $x_{3}$ antall fiskemåltider per måned.
+
+---
+
+## Interpretasjon av regresjon med binær variabel
+
+$~$
+
+![](binaer_variabel.png){width=80%}
+
+$~$
+
+Modell for røyker:
+
+\vspace{15mm}
+
+Modell for non-røyker:
+
+
+---
+
+## Kategoriske forklaringsvariabler
+
+$~$
+
+* Vi gjør ting enda mer fleksibel (eller komplisert!) når vi også tillater kategoriske forklaringsvariabler. 
+
+\vspace{2mm}
+
+* Eksempel med 3 kategorier: Bil dataset med $y$=bensinforbruk og forklaringsvariabler `vekt` og `origin`$\in \{\text{American,European,Japanese}\}$. 
+
+\centering
+
+\vspace{4mm}
+
+`formel='mpg ~  vekt + origin'`
+
+```{r,echo=FALSE}
+library(ISLR)
+d.car<- subset(Auto,select=-name)
+d.car[,"origin"] <- ifelse(d.car[,"origin"]==1,"American",ifelse(d.car[,"origin"]==2,"European","Japanese"))
+write.table(d.car,file="data/Auto.csv",sep=",",quote=FALSE,row.names=F)
+```
+
+\flushleft
+
+\vspace{4mm}
+
+* Ide: dummy-variabel koding -- kalles _one-hot koding_ i maskinlæring.
+
+  + $x_{2i}=0$ og $x_{3i}=0$ hvis `origin` er "American"
+  + $x_{2i}=1$ og $x_{3i}=0$ hvis `origin` er "European"
+  + $x_{2i}=0$ og $x_{3i}=1$ hvis `origin` er "Japanese"
+  
+\vspace{4mm}  
+  
+Modellen: $y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i} + e_i$
+
+---
+
+![](kategorisk_variabel.png)
+
+$~$
+
+Så hva er modellene for de tre opprinnelsen (`origin`) av bilene?
+
+---
+
+## Videre denne og neste uken
