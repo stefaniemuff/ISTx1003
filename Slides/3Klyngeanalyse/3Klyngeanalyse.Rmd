@@ -72,7 +72,7 @@ Hvilke celleprøver fra brystkreftpasienter ligner hverandre mest?
 
 Kan vi finne ukjente klynger (av celleprøver) i dataene? 
 
-Dette kan hjelpe for å forutsi sannsynlighet for en tilbakefall.
+Dette kan hjelpe for å forutse sannsynligheten for en tilbakefall.
 
 ---
 
@@ -94,6 +94,19 @@ Finn ut mer:
  Kan vi finne klynger med relatert funksjon?
 
 ![](muff_etal.png)
+
+---
+
+# Eksempel 3: Bildanalyse
+
+Det var en prosjektoppgave i fjor.
+
+Mål:
+
+Å bruke klyngeanalyse til å fjerne detaljer og støy - ved å
+dele pikslene inn i to eller flere klynger.
+
+Todo: Ev adapt with task from this year.
 
 
 ---
@@ -138,31 +151,192 @@ Tema Klyngeanalyse:
 
 $~$
 
+Som alltid se her:
+
 https://wiki.math.ntnu.no/istx1003/2021h/start
 
 ---
 
 # Klyngeanalyse -- hva er det?
 
-* Mål: 
+Vi har data
+$$X : n\times p$$
+men _ikke_ noen respons $Y$. _\textcolor{red}{Ikke-veiledet = unsupervised}_
 
-  * tilordne en ny observasjon til en av flere _kjente_ klasser
+\vspace{4mm}
 
-  * lage en klassifikasjonsregel
+**Mål:**
 
-  * estimere sannsynligheten for at en ny observasjon tilhører de ulike klassene
-  
+ * Finn ukjente klynger i dataene.
+ * Observasjoner innen hver klynge er mer lik hverandre enn observasjoner fra ulike klynger.
+
 \vspace{2mm}
 
-For hver av de uavhengige observasjonene $i=1,\ldots,n$ har vi
+**Hva skal vi bruke resultatene fra klyngeanalysen til?**
 
-* Forklaringsvariabler $(x_{1i},x_{2i},\ldots,x_{pi})$
-* En kategorisk responsvariablel $y_i$.
+* Bildet: Fjerne støy eller, spare lagringsplass
+* Medisin: Finne subgrupper av en sykdom $\rightarrow$ relevant for behandling?
+
+\vspace{2mm}
+
+
+---
+
+# Klyngeanalyse -- hva er det?
+
+**Generelt**: Finne _\textcolor{red}{struktur}_ i dataene.
+
+\vspace{6mm}
+
+Kan vi stole på resultatene? Hvor robuste er de?
+
+$\rightarrow$ Fortsatt et forskningsområde!
 
 --- 
 
-## Eksempler
+# Avstandsmål 
+
+Før en klyngeanalyse må vi først definere en _avstand_ mellom to datapoeng. 
+
+To populære avstandsmal:
+
+**Euklidsk** \hspace{4cm} **City-block (=Manhattan)**
+
+![](euklid.png){width=48%}
+![](manhattan.png){width=50%}
 
 
+---
+
+**Euklidsk** \hspace{4cm} **City-block (=Manhattan)**
+
+$$D_E(i,i') = \sqrt{\sum_{j=1}^p (x_{ji} - x_{ji'})^2} \qquad \quad D_M(i,i') =  \sum_{j=1}^p |x_{ji} - x_{ji'}|$$
 
 
+$~$
+
+Avstandsmål i mer enn 2 dimensioner: Enkelt å regne, men litt vanskelig å forestille seg.
+
+---
+
+# Metoder for klyngeanalyse
+
+Det fins ganske mange metoder, men vi ser på to som er (mest?) populær:
+
+**K-gjennomsnitt klyngeanalyse**
+
+\centering
+![](kmeans_AllisonHorst.png){width=50%}
+
+
+\flushleft
+**Hierarkisk klyngeanalyse**
+
+\centering
+![](hierclust_AllisonHorst.png){width=50%}
+Artwork by @allison_horst
+
+---
+
+## K-gjennomsnitt klyngeanalyse
+
+$~$
+
+* Finn $K$ ukjente klynger i dataene.
+
+\vspace{2mm}
+
+\centering
+```{r, echo=FALSE,fig.width=4,fig.height=3.5,out.width='50%'}
+library(ggplot2)
+df <- data.frame(x1 = c(18, 21, 22, 24, 26, 26, 27, 30, 31, 35, 39, 40, 41, 42, 44, 46, 47, 48, 49, 54),
+    x2 = c(10, 11, 22, 15, 12, 13, 14, 33, 39, 37, 44, 27, 29, 20, 28, 21, 30, 31, 23, 24)
+)
+ggplot(df, aes(x = x1, y = x2)) +
+    geom_point()
+```
+
+* Alle observasjoner skal være medlem i akkurat en klynge
+* Variasjonen innen hver klynge skal være så liten som mulig
+
+---
+
+## Variasjon innen en klynge $k$
+
+$~$
+
+* $K$ klynger $C_1, \ldots, C_k, \ldots, C_K$. 
+
+* Antall observasjoner i klynge $k$: $|C_k|$.
+
+* Variasjon in klynge $k$: 
+$$\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2$$
+
+$~$
+
+**Optimeringsproblem**
+
+Vi vil _minimere_ variasjon over _alle klynger_: 
+$$\sum_{k=1}^K\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2$$
+
+---
+
+Nyttig sammenhang som er grunnlag for $k$-gjennomsnitt algoritme
+
+$$\sum_{k=1}^K\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2$$
+
+$$ = \sum_{k=1}^K 2 \sum_{i\in C_k}\sum_{j=1}^p (x_{ij}-\overline{x}_{kj})^2\ ,$$
+$~$
+
+med _klyngesentroide_ i klynge $k$: $\overline{x}_k = (\overline{x}_{k1}, \ldots, \overline{x}_{kp})$
+
+---
+
+## K-gjennomsnitt algoritme
+
+$~$
+
+* Start med å velge antall klynker $K$.
+
+\vspace{2mm}
+
+* Tilordne hver observasjon til en klynge
+
+  * Mange muligheter
+      + tilfeldig velge ut $K$ observasjoner og sette disse som klyngesentroider
+      + tilfeldig klynger
+  * og deretter tilordne der resterende observasjoner til klyngen med nærmeste klyngesentroide.
+  
+\vspace{2mm}
+
+* Repeter (iterativt) _til ingen observasjoner endrer klyngemedlemskap_:
+  1. For hver klynge regn ut klyngesentroiden
+  2. Tilordne hver observasjon til klyngen til nærmeste klyngesentroide
+  
+---
+
+## Illustrasjon av $K$-gjennomsnitt algoritme ($K=3$)
+
+\centering
+![](10.6.pdf){width=70%}
+  
+\scriptsize
+Fig. 10.6 fra "An Introduction to Statistical
+  Learning with Applications in R", James et al 2013.
+  
+---
+
+## $K$-gjennomsnitt-algoritmen i Python
+
+Todo
+
+---
+
+## Prosjektoppgaven
+
+Todo
+
+---
+
+## Hierarkisk klyngeanalyse
+ 
