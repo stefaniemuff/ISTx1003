@@ -81,6 +81,12 @@
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \newif\ifbibliography
+\usepackage{longtable,booktabs}
+\usepackage{caption}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -153,7 +159,7 @@ Hvilke celleprøver fra brystkreftpasienter ligner hverandre mest?
 
 Kan vi finne ukjente klynger (av celleprøver) i dataene?
 
-Dette kan hjelpe for å forutsi sannsynlighet for en tilbakefall.
+Dette kan hjelpe for å forutse sannsynligheten for en tilbakefall.
 
 \end{frame}
 
@@ -176,6 +182,20 @@ Finn ut mer: \url{https://cgp.iiarjournals.org/content/8/4/199}
 Kan vi finne klynger med relatert funksjon?
 
 \includegraphics{muff_etal.png}
+
+\end{frame}
+
+\begin{frame}{Eksempel 3: Bildanalyse}
+\protect\hypertarget{eksempel-3-bildanalyse}{}
+
+Det var en prosjektoppgave i fjor.
+
+Mål:
+
+Å bruke klyngeanalyse til å fjerne detaljer og støy - ved å dele
+pikslene inn i to eller flere klynger.
+
+Todo: Ev adapt with task from this year.
 
 \end{frame}
 
@@ -235,6 +255,8 @@ Tema Klyngeanalyse:
 
 \(~\)
 
+Som alltid se her:
+
 \url{https://wiki.math.ntnu.no/istx1003/2021h/start}
 
 \end{frame}
@@ -242,38 +264,335 @@ Tema Klyngeanalyse:
 \begin{frame}{Klyngeanalyse -- hva er det?}
 \protect\hypertarget{klyngeanalyse-hva-er-det}{}
 
-\begin{itemize}
-\item
-  Mål:
+Vi har data \[X : n\times p\] men \emph{ikke} noen respons \(Y\).
+\emph{\textcolor{red}{Ikke-veiledet = unsupervised}}
 
-  \begin{itemize}
-  \item
-    tilordne en ny observasjon til en av flere \emph{kjente} klasser
-  \item
-    lage en klassifikasjonsregel
-  \item
-    estimere sannsynligheten for at en ny observasjon tilhører de ulike
-    klassene
-  \end{itemize}
-\end{itemize}
+\vspace{4mm}
 
-\vspace{2mm}
-
-For hver av de uavhengige observasjonene \(i=1,\ldots,n\) har vi
+\textbf{Mål:}
 
 \begin{itemize}
 \tightlist
 \item
-  Forklaringsvariabler \((x_{1i},x_{2i},\ldots,x_{pi})\)
+  Finn ukjente klynger i dataene.
 \item
-  En kategorisk responsvariablel \(y_i\).
+  Observasjoner innen hver klynge er mer lik hverandre enn observasjoner
+  fra ulike klynger.
 \end{itemize}
+
+\vspace{2mm}
+
+\textbf{Hva skal vi bruke resultatene fra klyngeanalysen til?}
+
+\begin{itemize}
+\tightlist
+\item
+  Bildet: Fjerne støy eller, spare lagringsplass
+\item
+  Medisin: Finne subgrupper av en sykdom \(\rightarrow\) relevant for
+  behandling?
+\end{itemize}
+
+\vspace{2mm}
+
+\end{frame}
+
+\begin{frame}{Klyngeanalyse -- hva er det?}
+\protect\hypertarget{klyngeanalyse-hva-er-det-1}{}
+
+\textbf{Generelt}: Finne \emph{\textcolor{red}{struktur}} i dataene.
+
+\vspace{6mm}
+
+Kan vi stole på resultatene? Hvor robuste er de?
+
+\(\rightarrow\) Fortsatt et forskningsområde!
+
+\end{frame}
+
+\begin{frame}{Avstandsmål}
+\protect\hypertarget{avstandsmuxe5l}{}
+
+Før en klyngeanalyse må vi først definere en \emph{avstand} mellom to
+datapoeng.
+
+To populære avstandsmal:
+
+\textbf{Euklidsk} \hspace{4cm} \textbf{City-block (=Manhattan)}
+
+\includegraphics[width=0.48\textwidth,height=\textheight]{euklid.png}
+\includegraphics[width=0.5\textwidth,height=\textheight]{manhattan.png}
 
 \end{frame}
 
 \begin{frame}
 
-\begin{block}{Eksempler}
+\textbf{Euklidsk} \hspace{4cm} \textbf{City-block (=Manhattan)}
+
+\[D_E(i,i') = \sqrt{\sum_{j=1}^p (x_{ji} - x_{ji'})^2} \qquad \quad D_M(i,i') =  \sum_{j=1}^p |x_{ji} - x_{ji'}|\]
+
+\(~\)
+
+Avstandsmål i mer enn 2 dimensioner: Enkelt å regne, men litt vanskelig
+å forestille seg.
+
+\end{frame}
+
+\begin{frame}{Metoder for klyngeanalyse}
+\protect\hypertarget{metoder-for-klyngeanalyse}{}
+
+Det fins ganske mange metoder, men vi ser på to som er (mest?) populær:
+
+\textbf{K-gjennomsnitt klyngeanalyse}
+
+\centering
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{kmeans_AllisonHorst.png}
+
+\flushleft
+
+\textbf{Hierarkisk klyngeanalyse}
+
+\centering
+
+\includegraphics[width=0.55\textwidth,height=\textheight]{hierclust_AllisonHorst.png}
+
+\tiny Artwork by @allison\_horst
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{K-gjennomsnitt klyngeanalyse}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Finn \(K\) ukjente klynger i dataene.
+\end{itemize}
+
+\vspace{2mm}
+
+\centering
+
+\includegraphics[width=0.5\linewidth]{3Klyngeanalyse_files/figure-beamer/unnamed-chunk-1-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Alle observasjoner skal være medlem i akkurat en klynge
+\item
+  Variasjonen innen hver klynge skal være så liten som mulig
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Variasjon innen en klynge \(k\)}
+
+\(~\)
+
+\begin{itemize}
+\item
+  \(K\) klynger \(C_1, \ldots, C_k, \ldots, C_K\).
+\item
+  Antall observasjoner i klynge \(k\): \(|C_k|\).
+\item
+  Variasjon in klynge \(k\):
+  \[\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2\]
+\end{itemize}
+
+\(~\)
+
+\textbf{Optimeringsproblem}
+
+Vi vil \emph{minimere} variasjon over \emph{alle klynger}:
+\[\sum_{k=1}^K\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2\]
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+Nyttig sammenhang som er grunnlag for \(k\)-gjennomsnitt algoritme
+
+\[\sum_{k=1}^K\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2\]
+
+\[ = \sum_{k=1}^K 2 \sum_{i\in C_k}\sum_{j=1}^p (x_{ij}-\overline{x}_{kj})^2\ ,\]
+\(~\)
+
+med \emph{klyngesentroide} i klynge \(k\):
+\(\overline{x}_k = (\overline{x}_{k1}, \ldots, \overline{x}_{kp})\)
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{K-gjennomsnitt algoritme}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Start med å velge antall klynker \(K\).
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\item
+  Tilordne hver observasjon til en klynge
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Mange muligheter
+
+    \begin{itemize}
+    \tightlist
+    \item
+      tilfeldig velge ut \(K\) observasjoner og sette disse som
+      klyngesentroider
+    \item
+      tilfeldig klynger
+    \end{itemize}
+  \item
+    og deretter tilordne der resterende observasjoner til klyngen med
+    nærmeste klyngesentroide.
+  \end{itemize}
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  \textcolor{red}{Repeter} (iterativt) \emph{til ingen observasjoner
+  endrer klyngemedlemskap}:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    For hver klynge regn ut klyngesentroiden
+  \item
+    Tilordne hver observasjon til klyngen til nærmeste klyngesentroide
+  \end{enumerate}
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Illustrasjon av \(K\)-gjennomsnitt algoritme (\(K=3\))}
+
+\centering
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{10.6.pdf}
+
+\scriptsize
+
+Fig. 10.6 fra ``An Introduction to Statistical Learning with
+Applications in R'', James et al 2013.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{\(K\)-gjennomsnitt-algoritmen i Python}
+
+Todo
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Prosjektoppgaven}
+
+Todo
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Hierarkisk klyngeanalyse}
+\protect\hypertarget{hierarkisk-klyngeanalyse}{}
+
+\(~\)
+
+\includegraphics[width=0.8\textwidth,height=\textheight]{hierclust_AllisonHorst.png}
+
+\tiny Artwork by @allison\_horst
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Eksempel}
+
+\(~\)
+
+\(n=5, p=2\)
+
+\(~\)
+
+\includegraphics[width=0.25\textwidth,height=\textheight]{table.png}
+\includegraphics[width=0.65\textwidth,height=\textheight]{exampleplot-1.pdf}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\includegraphics[width=0.25\textwidth,height=\textheight]{table.png}
+\includegraphics[width=0.65\textwidth,height=\textheight]{exampleplot-1.pdf}
+
+\begin{enumerate}
+[1)]
+\tightlist
+\item
+  Velg avstandsmål
+\item
+  Regn ut avstanden mellom alle par av observasjoner
+\item
+  Plasser avstandene inn i en \(n\times n\) matrise
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Avstandsmatrise (Euklidsk avstand)}
+
+\(~\)
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{exampleplot-1.pdf}
+
+\begin{longtable}[]{@{}cccccc@{}}
+\toprule
+name & a & b & c & d & e\tabularnewline
+\midrule
+\endhead
+a & 0.0 & 1.0 & 5.0 & 8.5 & 7.2\tabularnewline
+b & 1.0 & 0.0 & 4.5 & 7.8 & 6.7\tabularnewline
+c & 5.0 & 4.5 & 0.0 & 3.6 & 2.2\tabularnewline
+d & 8.5 & 7.8 & 3.6 & 0.0 & 2.0\tabularnewline
+e & 7.2 & 6.7 & 2.2 & 2.0 & 0.0\tabularnewline
+\bottomrule
+\end{longtable}
 
 \end{block}
 

@@ -233,8 +233,9 @@ Det fins ganske mange metoder, men vi ser på to som er (mest?) populær:
 **Hierarkisk klyngeanalyse**
 
 \centering
-![](hierclust_AllisonHorst.png){width=50%}
-Artwork by @allison_horst
+![](hierclust_AllisonHorst.png){width=55%}
+
+\tiny Artwork by @allison_horst
 
 ---
 
@@ -309,7 +310,7 @@ $~$
   
 \vspace{2mm}
 
-* Repeter (iterativt) _til ingen observasjoner endrer klyngemedlemskap_:
+* \textcolor{red}{Repeter} (iterativt) _til ingen observasjoner endrer klyngemedlemskap_:
   1. For hver klynge regn ut klyngesentroiden
   2. Tilordne hver observasjon til klyngen til nærmeste klyngesentroide
   
@@ -338,5 +339,76 @@ Todo
 
 ---
 
-## Hierarkisk klyngeanalyse
+# Hierarkisk klyngeanalyse
+
+$~$
  
+![](hierclust_AllisonHorst.png){width=80%}
+
+\tiny Artwork by @allison_horst 
+
+
+---
+
+## Eksempel
+
+$~$
+
+$n=5, p=2$
+
+$~$
+
+![](table.png){width=25%}
+![](exampleplot-1.pdf){width=65%}
+
+
+<!-- ```{r exampleplot, echo=FALSE,fig.width=4,fig.height=3.5,out.width='40%'} -->
+<!-- library(ggplot2) -->
+<!-- df <- data.frame(x1 = c(1,2,4,7,5), -->
+<!--     x2 = c(1,1,5,7,7),name=c("a","b","c","d","e") -->
+<!-- ) -->
+<!-- ggplot(df, aes(x = x1, y = x2,label=name)) + -->
+<!--     geom_point(size=2) + -->
+<!--     geom_text(aes(label=name),hjust=-1.2, vjust=0) + -->
+<!--   scale_x_continuous(limits = c(1,7.5)) + -->
+<!--   scale_y_continuous(limits = c(0,8)) -->
+<!-- ``` -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- kable(df) -->
+<!-- ``` -->
+
+
+---
+
+![](table.png){width=25%}
+![](exampleplot-1.pdf){width=65%}
+
+1) Velg avstandsmål
+2) Regn ut avstanden mellom alle par av observasjoner
+3) Plasser avstandene inn i en $n\times n$ matrise
+
+
+---
+
+## Avstandsmatrise (Euklidsk avstand)
+
+$~$
+
+![](exampleplot-1.pdf){width=50%}
+
+```{r,echo=FALSE}
+df2 <- data.frame(name=c("a","b","c","d","e"), 
+                 a = c(0,1,5.0,8.5,7.2), 
+                 b= c(1,0,4.5,7.8,6.7),
+                 c = c(5.0,4.5, 0,3.6,2.2),
+                 d = c(8.5,7.8,3.6,0,2.0),
+                 e = c(7.2,6.7,2.2,2.0,0))
+                  
+kable(df2,digits=1,align="c")
+```
+
+
+---
+
+## Avstand mellom klynger?
