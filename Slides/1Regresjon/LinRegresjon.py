@@ -80,6 +80,7 @@ sns.regplot(df['bmi'],df['bodyfat'])
 sns.scatterplot(x=resultat.fittedvalues, y=resultat.resid)
 plt.ylabel("Residual")
 plt.xlabel("Predikert verdi")
+plt.axhline(y=0, color='black', linestyle='--')
 plt.show()
 
 # Lage kvantil-kvantil-plott for residualene
@@ -144,6 +145,7 @@ print(resultat.summary())
 sns.scatterplot(x=resultat.fittedvalues, y=resultat.resid)
 plt.ylabel("Residual")
 plt.xlabel("Predikert verdi")
+plt.axhline(y=0, color='black', linestyle='--')
 plt.show()
 
 # Lage kvantil-kvantil-plott for residualene

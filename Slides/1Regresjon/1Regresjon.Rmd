@@ -34,25 +34,54 @@ whichformat="latex"
 --- 
 
 
-# Plan for i dag
+# Plan for i dag og fredag 12:15-13:00
 
 $~$
 
-* Hvem er vi?
-
-* Statistisk læring og data science
+* Læringsmål og plan for prosjektmodulen ISTx1003.
 
 * De tre temaene i modulen: 
   + regresjon 
   + klassifikasjon og
   + klyngeananlyse 
 
-* Læringsressurser og pensum
+* Pensum og læringsressurser
 
 * Prosjektoppgaven og Blackboard-informasjon
 
-* Tema: regresjon - med enkel lineær regresjon
+* Tema: Enkel og multippel lineær regresjon
  
+ 
+---
+
+# Hvem er vi?
+ 
+$~$
+
+* **Studentene**: BIDATA og BDIGSEC, omtrent 250 studenter totalt. 
+
+* **Faglig ansvarlig** for innholdet i modulen er Stefanie Muff (stefanie.muff@ntnu.no).
+
+* I **veilederteamet** (for prosjektet) inngår i tillegg
+  * Trondheim: studentassistentene Simen, Simon og Philip, og
+øvingslærer Martin O. Berild
+  * Gjøvik: Charles Curry ...
+  * Ålesund: Siebe B. van Albada, ...
+ 
+ 
+---
+
+# Hva er statistisk læring og data science?
+
+$~$
+
+* _Statistisk læring_ inneholder stort sett alle metoder som hjelper oss å lære av data.
+
+\vspace{2mm}
+
+* _Data science_ er et konsept for å forene statistikk, dataanalyse, informatikk og tilhørende metoder for å "forstå og analysere relle fenomener med data.
+
+
 
 
 ---
@@ -84,43 +113,15 @@ realistiske ut fra informasjonen som gis
 
 *  kunne besvare prosjektoppgaven på en god måte!  
 
----
-
-# Hva er statistisk læring og data science?
-
-Todo
-
----
-
-# Prosjektoppgaven
-
-$~$
-
-* Vi ser hvor informasjonen ligger på Blackboard og hvordan melde seg på gruppe.
-
-$~$
-
-* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub.
-
---- 
-
-# Læringsmål (i dag)
-
-$~$
-
-* Du kan lage en modell for å  forstå sammenhengen mellom en respons og
-en eller flere forklaringsvariabler.
-
-$~$
-
-* Du kan lage en modell for å predikere en respons
-fra en eller flere forklaringsvariabler.
-
 
 
 ---
 
-# Læringsressurser
+# Pensum og læringsressurser
+
+Pensum er definert som ``svarene på det du blir spurt om på
+prosjektoppgaven'' og de kan du finne ved å bruke læringsressursene.
+
 
 \vspace{2mm}
 Alle ressurser er tilgjengelig her:
@@ -143,6 +144,59 @@ Tema Regresjon:
 * Denne forelesningen 
 
 * **Disse slides** med notater
+
+
+---
+
+# Prosjektoppgaven
+
+$~$
+
+* Vi ser hvor informasjonen ligger på Blackboard og hvordan melde seg på gruppe.
+
+\vspace{2mm}
+
+* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub.
+
+\vspace{2mm}
+
+* Karakteren teller 30\% til den endelige karakteren.
+
+\vspace{2mm}
+
+* Vi bruker prosentvurderingsmetoden: Konverterer poengene i en \% (heltall, avrundet) og så bruker vi følgende skala:
+
+\centering
+![](prosent.png){width=40%}
+
+---
+
+# Veileding til prosjektoppgaven
+
+$~$
+
+**Trondheim**: 11., 18. og 25. November, 12:15-14:00 i Sentralbygg S3.
+
+**Ålesund**:
+
+**Gjøvik**: 
+
+
+--- 
+
+# Læringsmål for regresjon
+
+$~$
+
+* Du kan lage en modell for å  forstå sammenhengen mellom en respons og
+én eller flere forklaringsvariabler.
+
+$~$
+
+* Du kan lage en modell for å predikere en respons
+fra en eller flere forklaringsvariabler.
+
+
 
 ---
 
@@ -211,6 +265,8 @@ for alle $i$. Men..
 
 Hvilken linje er best?
 
+$~$
+
 ```{r motivating3, echo=FALSE, fig.width=5, fig.height=4,fig.align = "center",out.width='60%'}
 ggplot(d.bodyfat,aes(x=bmi,y=bodyfat)) + geom_point() + theme_bw() + ylab("body fat (%)")  + 
   geom_abline(intercept = -25, slope = 1.7, color="red",   size=0.6) +
@@ -225,7 +281,7 @@ geom_abline(intercept = -36, slope = 2.25, color="blue",    size=0.6)
 
 $~$
 
-a) Kan vi tilpasse den "rette" linje til dataene?
+a) Kan vi tilpasse den "rette" linjen til dataene?
 
 $~$
 
@@ -291,7 +347,7 @@ med $$e_i \sim \textsf{N}(0,\sigma^2) \ .$$
 Her kan du finne de beste parametrene selv: 
 \vspace{2mm}
 
-You can do this here:
+Bruk denne lenken:
 \vspace{2mm}
 
 <https://gallery.shinyapps.io/simple_regression/>
@@ -317,9 +373,7 @@ $$\text{bodyfat}_i = \beta_0 + \beta_1 \text{bmi}_i + \beta_2 \text{age}_i + e_i
 --- 
 
 # Regresjonsanalyse i fem steg
-
-Vi skal bruke statmodels.api og statmodels.formula.api for lineær
-regresjon:
+ 
 
 $~$
 
@@ -332,6 +386,12 @@ $~$
 **Steg 4**: Presenter resultater fra den tilpassede modellen
 
 **Steg 5**: Evaluer om modellen passer til dataene
+
+$~$
+
+Vi skal ikke snakke så mye om hvordan finne en god
+modell, men om hvordan sammenligne to
+modeller (med justert $R^2$) .
 
 ---
 
@@ -386,25 +446,38 @@ I Python får du en oppsummering av datasettet (`df`) med `df.describe()`.
 
 $~$
 
-Nå må vi spesifisere en modell med å velge hvile forklaringsvariabler vi vil bruke
+Nå må vi spesifisere en modell med å velge hvilke forklaringsvariabler vi vil bruke
 
 $$ y \sim x_1 + x_2 + x_3 \ .$$
 
 \vspace{2mm}
+
+I Python er det
+
+\vspace{2mm}
+
+\centering
+
+`formel='y ~ x1 + x2 + x3'`.
+
+---
 
 **Eksempel 1**:
 
 $$\text{bodyfat} \sim \text{bmi} $$ 
 hvis den matematiske modellen er 
 $$\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + e_i \ , $$
+Python: `formel='bodyfat ~ bmi'`.
+
 $~$
+
 **Eksempel 2**:
 
 $$\text{bodyfat} \sim \text{bmi} + \text{age}$$ 
 hvis den matematiske modellen er 
 $$\text{bodyfat}_i = \beta_0 + \beta_1 \text{BMI}_i + \beta_2 \text{age}_i + e_i \ . $$
 
-Python eksempel: `formel='bodyfat ~ bmi + age'`.
+Python: `formel='bodyfat ~ bmi + age'`.
 
 ---
 
@@ -420,7 +493,7 @@ $~$
 
 $~$
 
-* Vi også estimerer $\sigma^2$.
+* I tillegg estimerer vi også $\sigma^2$.
 
 ---
 
@@ -434,11 +507,11 @@ $~$
 
 ---
 
-* Tilpasset regressjonslinie og 95% konfidensintervall for regressjonslinia.
+* Tilpasset regressjonslinie og 95% konfidensintervall for regressjonslinia (forventningsverdien $\text{E}(Y)$).
 
-* 95% prediksjonsintervall for nye personer (handtegnet)
+* 95% prediksjonsintervall for nye observasjoner (kroppsfett for nye personer; handtegnet)
 
-![](ols_result_plot.png){width=75%}
+![](ols_result_plot.png){width=70%}
 
 ---
 
@@ -446,7 +519,7 @@ $~$
 
 $~$
 
-**Tukey-Anscome diagram**:
+**Tukey-Anscome (TA) diagram**:
 
 $~$
 
@@ -498,7 +571,8 @@ qqline(r.lm$residuals)
 
 $~$
 
-Gjenta samme analyse med to kovariabler
+Gjenta samme analyse med to kovariabler  
+(`formel='bodyfat ~ bmi + age'`):
 
 $~$
 
@@ -517,7 +591,7 @@ Hva betyr alt dette?
 * `coef`: $\hat\beta_j$
 * `std err`: $\hat\text{SE}(\hat\beta_j)$
 * `t`: $\frac{\hat\beta_j-0}{\text{SE}(\hat\beta_j)}$
-* `P>|t|`: $p$-verdi
+* `P>|t|`: $p$-verdi (obs! $p=0.000$ er _ikke_ mulig, det betyr egentlig $p<0.001$)
 
 ---
 
@@ -600,7 +674,7 @@ $~$
 
 $~$
 
-**$p$-verdien** er sannsynligheten for det vi _har_ observert eller noe mer ekstremt, dersom $H_0$ er sann. 
+**$p$-verdien** er sannsynligheten for det vi _har_ observert eller noe mer ekstremt, dersom $H_0$ er sant. 
 
 \vspace{5mm}
 
@@ -664,7 +738,13 @@ med $$\text{TSS} = \sum_{i=1}^n (y_i - \bar{y})^2$$ som måler den totale variab
 
 \vspace{2mm}
 
-**Men**: For modellvalg bruker vi en justert versjon:
+---
+
+Problemet med $R^2$: Verdien blir alltid større når flere variabler er lagt til.
+
+$~$
+
+For modellvalg bruker vi derfor en justert versjon:
 
 $$R^2_{adj} = 1-(1-R^2 )\frac{n-1}{n-m-1}$$
 
@@ -676,8 +756,8 @@ $~$
 
 $~$
 
-![](ta2.png){width=45%}
-![](qq2.png){width=45%}
+![](ta2.png){width=47%}
+![](qq2.png){width=42%}
 
 <!-- ```{r eval=TRUE,echo=FALSE,fig.width=9, fig.height=5,fig.align = "center",out.width='90%'} -->
 <!-- r.lm <- lm(bodyfat ~ bmi + age + weight  + neck + abdomen,d.bodyfat) -->
@@ -744,7 +824,7 @@ Modell for røyker:
 
 \vspace{15mm}
 
-Modell for non-røyker:
+Modell for ikke-røyker:
 
 
 ---
@@ -790,10 +870,10 @@ Modellen: $y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i} + e_
 
 ![](kategorisk_variabel.png)
 
-$~$
+\vspace{2mm}
 
-Så hva er modellene for de tre opprinnelsen (`origin`) av bilene?
+Så hva er modellene for de tre opprinnelsene (`origin`) av bilene?
 
 ---
 
-## Videre denne og neste uken
+## Oppsummering linear regresjon
