@@ -35,14 +35,24 @@ whichformat="latex"
 
 --- 
 
+# Anerkjennelse
 
-# Plan for i dag
+$~$
+
+Disse slides bygger på slides fra Mette Langaas, 2020.
+
+
+Takk til Mette for at jeg fikk bruke noen av materialene.
+
+---
+
+# Plan tema "Klassifikasjon"
 
 $~$
 
 * Læringsmål og ressurser
 
-* Hva er klassifikasjon 
+* Hva er klassifikasjon?
 
 * Trening, validering og testing (3 datasett)
 
@@ -66,14 +76,14 @@ aktuell metode å bruke
 * vite hva en forvirringsmatrise er, og kjenne til begrepene
 _feilrate_ (error rate) og _nøyaktighet_ (accuracy)
 
-* forstå tankegangen bak $k$-nærmeste nabo-klassifikasjon, valg av k
+* forstå tankegangen bak $k$-nærmeste nabo-klassifikasjon, valg av $k$
 
 * kjenne til modellen for logistisk regresjon, og kunne tolke
 de estimerte koeffisientene
 
 * forstå hvordan vi utfører klassifikasjon i Python
 
-* kunne besvare oppgave 2 av prosjektoppgaven
+* kunne besvare problem 2 av prosjektoppgaven
 
 --- 
 
@@ -81,7 +91,9 @@ de estimerte koeffisientene
 
 \vspace{2mm}
 
+$~$
 
+Tema Klassifikasjon:
 
 \vspace{2mm}
 
@@ -92,6 +104,7 @@ de estimerte koeffisientene
   * Introduksjon og $k$-nærmeste nabo klassifiiasjon (10:58)
   * Logistisk regresjon (14:17)
  
+* Denne forelesningen
 
 * **Disse slides** med notater
 
@@ -116,24 +129,21 @@ For hver av de uavhengige observasjonene $i=1,\ldots,n$ har vi
 
 --- 
 
-## Eksempler
+## Eksempler I
 
 \vspace{2mm}
 
-* Hvilke tall er handskrevet på brev? Og hva er sannsynligheten for de ulike tallene (=klasser).
+* Hvilke tall er handskrevet på brev? Og hva er sannsynligheten for de ulike tallene (=klasser)?
 \vspace{2mm}
 
 \centering
 ![](mnist.jpeg){width=50%}
 
-\vspace{2mm}
+\vspace{4mm}
 
 \flushleft
 
-* "Spam eller ham?" spam filer: Klassifikasjon om en e-post er spam eller ikke.  
-Binær: Respons variable er "ja"/"nei" (1/0).
- 
-\vspace{2mm}
+
 
 * Kommer en gitt kunde til å betale tilbake lånet sitt?
 
@@ -145,8 +155,21 @@ Binær: Respons variable er "ja"/"nei" (1/0).
 
 ---
 
-Noe om tilsvarende oppgave i prosjektet
+## Eksempler II
 
+$~$
+
+Problem 2 i prosjektet:
+
+\vspace{2mm}
+
+"Spam eller ham?" Spam filter: Klassifikasjon for å finne ut om en e-post er spam eller ikke (="ham").  
+
+\vspace{2mm}
+
+Binær: Respons variable er "ja"/"nei" (1/0).
+ 
+\vspace{2mm}
 
 ---
 
@@ -233,11 +256,18 @@ gg3 = ggplot(data=dataf) +
 gg
 ```
 
-Spørsmål vi vil besvar: Hva vil beste klassifikasjonsgrense være?
+Spørsmål vi vil besvare: Hva er de beste klassifikasjonsgrensene?
 
 ---
 
-## Et eksempel til
+## Et reelt eksempel
+
+\vspace{2mm}
+
+![](flipper.png){width=90%}
+
+\tiny
+\textcolor{gray}{https://github.com/allisonhorst/palmerpenguins}
 
 ---
 
@@ -289,7 +319,7 @@ Algoritmen:
 
   2) Finn de $k$ nærmeste naboene til observasjonen i treningssettet.
 
-  3) Sannsynligheten for at den nye observasjonen tilhører klasse 1 anslår vi er andelen av de k nærmeste
+  3) Sannsynligheten for at den nye observasjonen tilhører klasse 1 anslår vi er andelen av de $k$ nærmeste
 naboene som har tilhører klasse 1. Ditto for de andre klassene.
 
   4) Klassen til den nye observasjonen er den som har
@@ -321,7 +351,7 @@ Tre sp\oe rsm\aa l:
 
 \vspace{2mm}
 
-Nærmest er definert ved å bruke euklidsk avstand.
+Nærmest er definert ved å bruke Euklidsk avstand.
 
 \centering
 ![](avstand.png){width=40%}
@@ -403,7 +433,7 @@ dataf = bind_rows(mutate(test.grid, prob=prob, class="0", prob_cls=ifelse(classi
                   mutate(test.grid, prob=prob, class="1", prob_cls=ifelse(classif==class, 1, 0)))
 
 gg1 = ggplot(dataf)+geom_point(aes(x=x, y=y, colour=class), data=mutate(test.grid, class=classif), size=0.01) + 
-  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.5) + 
+  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.3) + 
   ggtitle("k=1")+xlab("x1")+ylab("x2") + theme(legend.position = "none")
 
 # k = 5
@@ -414,7 +444,7 @@ dataf = bind_rows(mutate(test.grid, prob=prob, class="0", prob_cls=ifelse(classi
                   mutate(test.grid, prob=prob, class="1", prob_cls=ifelse(classif==class, 1, 0)))
 
 gg5 = ggplot(dataf)+geom_point(aes(x=x, y=y, colour=class), data=mutate(test.grid, class=classif), size=0.01) +
-  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.5) +
+  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.3) +
   ggtitle("k=5")+xlab("x1")+ylab("x2") + theme(legend.position = "none")
 
 # k = 15
@@ -425,7 +455,7 @@ dataf = bind_rows(mutate(test.grid, prob=prob, class="0", prob_cls=ifelse(classi
                   mutate(test.grid, prob=prob, class="1", prob_cls=ifelse(classif==class, 1, 0)))
 
 gg15 = ggplot(dataf)+geom_point(aes(x=x, y=y, colour=class), data=mutate(test.grid, class=classif), size=0.01) + 
-  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.5) + 
+  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.3) + 
   ggtitle("k=15")+xlab("x1")+ylab("x2") + theme(legend.position = "none")
 
 # k = 99
@@ -436,7 +466,7 @@ dataf = bind_rows(mutate(test.grid, prob=prob, class="0", prob_cls=ifelse(classi
                   mutate(test.grid, prob=prob, class="1", prob_cls=ifelse(classif==class, 1, 0)))
 
 gg99 = ggplot(dataf)+geom_point(aes(x=x, y=y, colour=class), data=mutate(test.grid, class=classif), size=0.01) +
-  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.5) +
+  geom_contour(aes(x=x, y=y, z=prob_cls, group=class, color=class), data=dataf, bins=2,size=0.3) +
   ggtitle("k=99")+xlab("x1")+ylab("x2") + theme(legend.position = "none")
 
 grid.arrange(gg1,gg5,gg15,gg99,nrow=2)
@@ -450,17 +480,17 @@ $~$
 
 Vi så jo at
 
-* Vi skal ikke velge $k$ for liten, ellers blir grensen _for fleksibel_.
+* Hvis man velger $k$ for lite, da blir grensen _for fleksibel_.
 
 $~$
 
 Men: 
 
-* Vi skal antakeligvis heller ikke velge $k$ for stor, ellers kan bli _for ufleksibel_.
+* Hvis man velger $k$ for stor, kan grensen bli _for ufleksibel_.
 
 $~$
 
-Det er noe som kalles en trade-off, og vi skal bruk valideringssettet for å få en ide om kvaliteten i klassifikasjonen.
+Det er noe som kalles en trade-off, og vi skal bruk valideringssettet for å få en idé om kvaliteten i klassifikasjonen.
 
 ---
 
@@ -472,8 +502,10 @@ Forvirringsmatrise med to klasser:
 
 \centering
 ![](forvirringsmatrise.png){width=35%}  
+\scriptsize
 (Fra Mette Langaas)
 
+\normalsize
 $~$
 
 \flushleft
@@ -492,7 +524,7 @@ Marker og tell antall gale klassifiseringer på valideringssettet ($k=1$):
 
 dataf.valid=data.frame(x=valid.x[,1], y=valid.x[,2], klasse=as.character(valid.y))
 
-gg1.valid <- gg1 + geom_point(data=dataf.valid, aes(x=x, y=y, col=klasse,pch=klasse),size=2,show.legend = FALSE) +
+gg1.valid <- gg1 + geom_point(data=dataf.valid, aes(x=x, y=y, col=klasse,pch=klasse),size=1.8,show.legend = FALSE) +
   xlim(0,8) + ylim(-2.5,7.3)
  
 gg1.valid
@@ -507,7 +539,7 @@ Igjen, men nå med $k=99$:
 
 dataf.valid=data.frame(x=valid.x[,1], y=valid.x[,2], klasse=as.character(valid.y))
 
-gg99.valid <- gg99 +   geom_point(data=dataf.valid, aes(x=x, y=y, col=klasse,pch=klasse),size=2,show.legend = FALSE) +
+gg99.valid <- gg99 +   geom_point(data=dataf.valid, aes(x=x, y=y, col=klasse,pch=klasse),size=1.8,show.legend = FALSE) +
   xlim(0,8) + ylim(-2.5,7.3)
  
 gg99.valid
@@ -519,7 +551,7 @@ gg99.valid
 
 $~$
 
-Det kan nå gjøres med alle $k=1,3,\ldots$, $k\leq n$. Det ser slik ut:
+Det kan vi nå systematisk gjøre med alle $k=1,3,\ldots$, $k\leq n$:
 
 \vspace{5mm}
 
@@ -541,7 +573,7 @@ plot(seq(1,kmax,2),misclas,type="b",xlab="k",ylab="Feilrate",pch=19,cex=0.8)
 
 --- 
 
-Klassegrensene ser ganske likt ut for $k=15$ og $k=99$:
+Klassegrensene ser ganske likt ut for $k=15$ og $k=99$ ($k\geq 15$):
 
 ```{r,knnplot4,echo=FALSE,eval=TRUE,fig.width=7,fig.height=7,fig.align = "center",out.width='70%'}
 grid.arrange(gg1,gg5,gg15,gg99,nrow=2)
@@ -566,7 +598,7 @@ Husk at vi hadde _tre_ deler i datasettet:
 ![](datasett.png)
 
 \vspace{2mm}
-Nå kan vi bruke testsettet for å finne feilraten.
+Nå kan vi bruke testsettet for å _finne feilraten_ for fremtidige data.
 
 ---
 
@@ -600,45 +632,47 @@ Feilraten er `r error`.
 `knaboer = np.arange(1,199,step=2)`
 
 `val_feilrate = np.empty(len(knaboer))`  
+
 `for i,k in enumerate(knaboer):`  
 $~$ `knn = KNeighborsClassifier(n_neighbors=k,p=2)`  
 $~$ `knn.fit(df_tren[['x1','x2']], df_tren['y'])`  
 $~$ `val_feilrate[i] = 1-knn.score(df_val[[‘x1','x2']], df_val['y'])`  
 
-
----
-
-# Todo (adapt to the code they need in oppgave 2)
-
-Plott feilrate:
-
-`plt.title('k-NN for ulike verdier av antall naboer k')`  
-`plt.plot(knaboer, val_feilrate, label='Feilrate på`  
- $~$ `valideringssettet')`  
-`plt.xlabel('Antall naboer k'); plt.ylabel('Feilrate')`  
-`plt.show()`
-
 $~$
 
-Velg k:
+Se prosjektoppgaven for mer Python kode.
 
-`mink_valfeilrate =`  
-$~$ `knaboer[np.where(val_feilrate == val_feilrate.min())]`  
-`print(mink_valfeilrate[0])`  
+<!-- # Todo (adapt to the code they need in oppgave 2) -->
 
---- 
+<!-- Plott feilrate: -->
 
-Sett opp klassifikator:
+<!-- `plt.title('k-NN for ulike verdier av antall naboer k')`   -->
+<!-- `plt.plot(knaboer, val_feilrate, label='Feilrate på`   -->
+<!--  $~$ `valideringssettet')`   -->
+<!-- `plt.xlabel('Antall naboer k'); plt.ylabel('Feilrate')`   -->
+<!-- `plt.show()` -->
 
-`bestek=99`  
-`knn = KNeighborsClassifier(n_neighbors=bestek,p=2)`  
+<!-- $~$ -->
 
-$~$
+<!-- Velg k: -->
 
-Feilrate på testsett: 
+<!-- `mink_valfeilrate =`   -->
+<!-- $~$ `knaboer[np.where(val_feilrate == val_feilrate.min())]`   -->
+<!-- `print(mink_valfeilrate[0])`   -->
 
-`knn.fit(df_tren[['x1','x2']], df_tren['y'])`  
-`print("Feilrate kNN:", 1- knn.score(df_test[['x1','x2']], df_test['y']))`  
+<!-- ---  -->
+
+<!-- Sett opp klassifikator: -->
+
+<!-- `bestek=99`   -->
+<!-- `knn = KNeighborsClassifier(n_neighbors=bestek,p=2)`   -->
+
+<!-- $~$ -->
+
+<!-- Feilrate på testsett:  -->
+
+<!-- `knn.fit(df_tren[['x1','x2']], df_tren['y'])`   -->
+<!-- `print("Feilrate kNN:", 1- knn.score(df_test[['x1','x2']], df_test['y']))`   -->
 
 
 <!-- --- -->
@@ -694,21 +728,46 @@ Feilrate på testsett:
 <!-- --- -->
 
 
-# Plan for i dag
+# Plan tema "Klassifikasjon"
 
 $~$
 
 * Læringsmål og ressurser
 
-* Hva er klassifikasjon 
+* Hva er klassifikasjon?
 
 * Trening, validering og testing (3 datasett)
 
-* $k$-nærmeste nabo (kNN): en intuitiv metode
+* $k$-nærmeste nabo (KNN): en intuitiv metode
 
 * Forvirringsmatrise og feilrate for å evaluere metoden
 
 * Logistisk regresjon
+
+---
+
+# Logistisk regresjon - mål
+
+$~$
+
+* Forstå modellen
+
+\vspace{2mm}
+ 
+* Tolke estimerte koeffisienter
+
+\vspace{2mm}
+
+* Hypotesetest og $p$-verdi
+
+\vspace{2mm}
+
+* Velge mellom modeller
+
+\vspace{2mm}
+
+* Kunne utføre dette i Python
+
 
 ---
 
@@ -772,15 +831,15 @@ grid.arrange(g1, g2, ncol=2 )
 For en binær responsvariabel $Y =$ `yes` or `no`, og forklaringsvariabler $X$ bruker vi vannligvis en _dummy encoding_ :
 
 $$Y = \left\{ \begin{array}{ll}
-0 & \text{if } \texttt{no} \ , \\
-1 & \text{if } \texttt{yes} \ .
+0 & \text{hvis  } \texttt{no} \ , \\
+1 & \text{hvis  } \texttt{yes} \ .
 \end{array} \right.$$
 
 \vspace{6mm}
 
 ```{r, echo=F,fig.width=6,fig.height=5,fig.align = "center",out.width='60%'}
  
-plot(default.bin ~ balance,data=Default,xlab="Balanse",ylab="Default (0/1)",col="orange")
+plot(default.bin ~ balance,data=Default,xlab="Balanse",ylab="Default (no=0, yes = 1)",col="orange")
 
 ```
 
@@ -789,7 +848,7 @@ plot(default.bin ~ balance,data=Default,xlab="Balanse",ylab="Default (0/1)",col=
 
 * Kunne vi da ikke bare formulere en linear regresjonsmodell for $Y$ vs. $X$? 
 
-* Vi kunne jo klassifisere response som "ja" (1) hvis $\hat{Y}> 0.5$.
+* Vi kunne jo klassifisere responsen som "ja" (1) hvis $\hat{Y}> 0.5$.
 
 \vspace{2mm}
 
@@ -837,8 +896,17 @@ $~$
 * **Ideen**: å koble $p_i$ sammen med forklaringsvariablen med en logistisk funksjon:
 
 $$p_i = \frac{\exp(\beta_0 + \beta_1 x_{1i})}{1+ \exp(\beta_0 + \beta_1 x_{1i})} \ .$$
+$~$
 
-I kredittkorteksempelet er $x_{1i}$ balansen til person $i$.
+* Denne verdien $p_i$ er alltid mellom 0 og 1, som den skal være.
+
+\vspace{2mm}
+
+
+
+$~$
+
+$~$
 
 ---
 
@@ -846,7 +914,11 @@ I kredittkorteksempelet er $x_{1i}$ balansen til person $i$.
 
 $~$
 
-$p\geq 0.5$ vs $p<0.5$:
+I kredittkorteksempelet er $x_{1i}$ balansen til person $i$.
+
+$~$
+
+Klassifikasjonsregel: $p\geq 0.5$ vs $p<0.5$.
 
 $~$
 
@@ -915,15 +987,15 @@ $~$
 
 \vspace{3mm}
 
-* $e^{0.0057}=1.0057$: Hvis `balance` øker med 1, går odds opp en _faktor_ 1.0057. 
+* $e^{0.0057}=1.0057$: Hvis `balance` øker med 1, går oddsen opp en _faktor_ 1.0057. 
 
 \vspace{3mm}
 
-* $e^{0.0057\cdot 100}=1.768$: Hvis `balance` øker med 100, går odds opp en _faktor_ 1.769.
+* $e^{0.0057\cdot 100}=1.768$: Hvis `balance` øker med 100, går oddsen opp en _faktor_ 1.769.
 
 \vspace{3mm}
 
-* Husk at $H_0: \beta_1=0$ versus $H_1: \beta_1\neq 0$. Her vi har $p<0.001$ for testen, derfor forkaster vi $H_0$.
+* Husk at $H_0: \beta_1=0$ versus $H_1: \beta_1\neq 0$. Her har vi $p<0.001$ for testen, derfor forkaster vi $H_0$.
 
 
 \vspace{10mm}
@@ -952,33 +1024,31 @@ $~$
 
 ## Hvilken model er bedre?
 
-$~$
+\vspace{2mm}
 
 * For klassifikasjonen, skal vi velge modellen med bare `balance` eller med `balance + income`?
 
-$~$
+\vspace{2mm}
 
-* Ideen: Skjekk feilrate på valideringssettet!
+* Ideen: Skjekk feilrate _på valideringssettet_!
 
-$~$
+\vspace{2mm}
 
 * Husker du bruk av forvirringsmatrise?
  
 
-$~$
+\vspace{2mm}
 
-* Dette er resultatene fra modellene: 
+* Det er resultatene fra modellene: 
 
 ```{r,eval=T, echo=F}
-matrix(c(1923, 10, 52, 15),nrow=2,byrow=T)
-matrix(c(1924, 9, 50, 17),nrow=2,byrow=T)
+kable(data.frame("pred no"=c(1923, 52),"pred yes"=c(10, 15),row.names=c("true:no","true:yes")),align="c",col.names=c("pred:no","pred:yes"),row.names=T)
+kable(data.frame("pred no"=c(1924, 50),"pred yes"=c(9, 17),row.names=c("true:no","true:yes")),align="c",col.names=c("pred:no","pred:yes"),row.names=T)
 ```
-$~$
 
 
-* Feilratene derfor er: 
-    * Enkelt modell: 0.031
-    * Multippel modell: 0.0295
+* Feilratene er derfor 0.031 (enkel modell) og 0.0295 (multippel modell) 
+   
 
 ---
 
@@ -1020,7 +1090,7 @@ $~$
 
 $~$
 
-* Se på videoene om Klyngeanalyse og K-gjennomsnitt (vent med videoen om hierarkisk klyngeanalyse) 
+* Se på videoene om Klyngeanalyse og K-gjennomsnitt (vent med videoen om hierarkisk klyngeanalyse).
 
 $~$
 

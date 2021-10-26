@@ -71,7 +71,7 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{
-            pdftitle={Module 4: Classification},
+            pdftitle={Klassifikasjon},
             pdfauthor={Stefanie Muff, Institutt for matematiske fag},
             colorlinks=true,
             linkcolor=Maroon,
@@ -81,6 +81,12 @@
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \newif\ifbibliography
+\usepackage{longtable,booktabs}
+\usepackage{caption}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -102,17 +108,28 @@
 
 \usepackage{multicol}
 
-\title{Module 4: Classification}
+\title{Klassifikasjon}
 \providecommand{\subtitle}[1]{}
 \subtitle{ISTx1003 Statistisk læring og Data Science}
 \author{Stefanie Muff, Institutt for matematiske fag}
-\date{November xy, 2021}
+\date{November 5 og 8, 2021}
 
 \begin{document}
 \frame{\titlepage}
 
-\begin{frame}{Plan for i dag}
-\protect\hypertarget{plan-for-i-dag}{}
+\begin{frame}{Anerkjennelse}
+\protect\hypertarget{anerkjennelse}{}
+
+\(~\)
+
+Disse slides bygger på slides fra Mette Langaas, 2020.
+
+Takk til Mette for at jeg fikk bruke noen av materialene.
+
+\end{frame}
+
+\begin{frame}{Plan tema ``Klassifikasjon''}
+\protect\hypertarget{plan-tema-klassifikasjon}{}
 
 \(~\)
 
@@ -120,11 +137,11 @@
 \item
   Læringsmål og ressurser
 \item
-  Hva er klassifikasjon
+  Hva er klassifikasjon?
 \item
   Trening, validering og testing (3 datasett)
 \item
-  \(k\)-nærmeste nabo (kNN): en intuitiv metode
+  \(k\)-nærmeste nabo (KNN): en intuitiv metode
 \item
   Forvirringsmatrise og feilrate for å evaluere metoden
 \item
@@ -144,17 +161,18 @@
   kjenne begrepene treningssett, valideringssett og testsett og forstå
   hvorfor vi lager dem og hva de skal brukes til
 \item
-  vite hva en forvirringsmatrise er, og kjenne til begrepene feilrate og
-  nøyaktighet (accuracy)
+  vite hva en forvirringsmatrise er, og kjenne til begrepene
+  \emph{feilrate} (error rate) og \emph{nøyaktighet} (accuracy)
 \item
-  forstå tankegangen bak \(k\)-nærmeste nabo-klassifikasjon, valg av k
+  forstå tankegangen bak \(k\)-nærmeste nabo-klassifikasjon, valg av
+  \(k\)
 \item
   kjenne til modellen for logistisk regresjon, og kunne tolke de
   estimerte koeffisientene
 \item
   forstå hvordan vi utfører klassifikasjon i Python
 \item
-  kunne besvare oppgave 2 av prosjektoppgaven
+  kunne besvare problem 2 av prosjektoppgaven
 \end{itemize}
 
 \end{frame}
@@ -163,6 +181,10 @@
 \protect\hypertarget{luxe6ringsressurser}{}
 
 \vspace{2mm}
+
+\(~\)
+
+Tema Klassifikasjon:
 
 \vspace{2mm}
 
@@ -179,6 +201,8 @@
   \item
     Logistisk regresjon (14:17)
   \end{itemize}
+\item
+  Denne forelesningen
 \item
   \textbf{Disse slides} med notater
 \end{itemize}
@@ -219,7 +243,7 @@ For hver av de uavhengige observasjonene \(i=1,\ldots,n\) har vi
 
 \begin{frame}
 
-\begin{block}{Eksempler}
+\begin{block}{Eksempler I}
 
 \vspace{2mm}
 
@@ -227,26 +251,16 @@ For hver av de uavhengige observasjonene \(i=1,\ldots,n\) har vi
 \tightlist
 \item
   Hvilke tall er handskrevet på brev? Og hva er sannsynligheten for de
-  ulike tallene (=klasser). 
+  ulike tallene (=klasser)? \vspace{2mm}
 \end{itemize}
 
 \centering
 
 \includegraphics[width=0.5\textwidth,height=\textheight]{mnist.jpeg}
 
-\vspace{2mm}
+\vspace{4mm}
 
 \flushleft
-
-\begin{itemize}
-\tightlist
-\item
-  ``Spam eller ham?'' spam filer: Klassifikasjon om en e-post er spam
-  eller ikke.\\
-  Binær: Respons variable er ``ja''/``nei'' (1/0).
-\end{itemize}
-
-\vspace{2mm}
 
 \begin{itemize}
 \tightlist
@@ -269,7 +283,24 @@ For hver av de uavhengige observasjonene \(i=1,\ldots,n\) har vi
 
 \begin{frame}
 
-Noe om tilsvarende oppgave i prosjektet
+\begin{block}{Eksempler II}
+
+\(~\)
+
+Problem 2 i prosjektet:
+
+\vspace{2mm}
+
+``Spam eller ham?'' Spam filter: Klassifikasjon for å finne ut om en
+e-post er spam eller ikke (=``ham'').
+
+\vspace{2mm}
+
+Binær: Respons variable er ``ja''/``nei'' (1/0).
+
+\vspace{2mm}
+
+\end{block}
 
 \end{frame}
 
@@ -288,7 +319,7 @@ Noe om tilsvarende oppgave i prosjektet
 
 \begin{center}\includegraphics[width=0.6\linewidth]{2Klassifikasjon_files/figure-beamer/unnamed-chunk-1-1} \end{center}
 
-Spørsmål vi vil besvar: Hva vil beste klassifikasjonsgrense være?
+Spørsmål vi vil besvare: Hva er de beste klassifikasjonsgrensene?
 
 \end{block}
 
@@ -296,7 +327,15 @@ Spørsmål vi vil besvar: Hva vil beste klassifikasjonsgrense være?
 
 \begin{frame}
 
-\begin{block}{Et eksempel til}
+\begin{block}{Et reelt eksempel}
+
+\vspace{2mm}
+
+\includegraphics[width=0.9\textwidth,height=\textheight]{flipper.png}
+
+\tiny
+
+\textcolor{gray}{https://github.com/allisonhorst/palmerpenguins}
 
 \end{block}
 
@@ -345,9 +384,13 @@ Hvorfor det?
 \begin{frame}{\(k\)-nærmeste-nabo-klassifikasjon}
 \protect\hypertarget{k-nuxe6rmeste-nabo-klassifikasjon}{}
 
-For å finne klassifikasjonsreglen bruker vi bare treningsdataene.
+\(~\)
 
-Bruker bare treningsdataene. Algoritmen:
+For å \emph{finne} klassifikasjonsreglen bruker vi bare treningsdataene.
+
+\(~\)
+
+Algoritmen:
 
 \begin{enumerate}
 [1)]
@@ -358,7 +401,7 @@ Bruker bare treningsdataene. Algoritmen:
   Finn de \(k\) nærmeste naboene til observasjonen i treningssettet.
 \item
   Sannsynligheten for at den nye observasjonen tilhører klasse 1 anslår
-  vi er andelen av de k nærmeste naboene som har tilhører klasse 1.
+  vi er andelen av de \(k\) nærmeste naboene som har tilhører klasse 1.
   Ditto for de andre klassene.
 \item
   Klassen til den nye observasjonen er den som har størst sannsynlighet.
@@ -404,7 +447,7 @@ Tre sp\oe rsm\aa l: \vspace{5mm}
 
 \vspace{2mm}
 
-Nærmest er definert ved å bruke euklidsk avstand.
+Nærmest er definert ved å bruke Euklidsk avstand.
 
 \centering
 
@@ -496,7 +539,7 @@ Vi så jo at
 \begin{itemize}
 \tightlist
 \item
-  Vi skal ikke velge \(k\) for liten, ellers blir grensen for fleksibel.
+  Hvis man velger \(k\) for lite, da blir grensen \emph{for fleksibel}.
 \end{itemize}
 
 \(~\)
@@ -506,14 +549,13 @@ Men:
 \begin{itemize}
 \tightlist
 \item
-  Vi skal antakeligvis heller ikke velge \(k\) for stor, ellers kan bli
-  for ufleksibel.
+  Hvis man velger \(k\) for stor, kan grensen bli \emph{for ufleksibel}.
 \end{itemize}
 
 \(~\)
 
 Det er noe som kalles en trade-off, og vi skal bruk valideringssettet
-for få en ide om kvaliteten i klassifikasjonen.
+for å få en idé om kvaliteten i klassifikasjonen.
 
 \end{block}
 
@@ -523,9 +565,20 @@ for få en ide om kvaliteten i klassifikasjonen.
 
 \begin{block}{Forvirringsmatrise}
 
+\(~\)
+
 Forvirringsmatrise med to klasser:
 
-\vspace{4cm}
+\centering
+
+\includegraphics[width=0.35\textwidth,height=\textheight]{forvirringsmatrise.png}\\
+\scriptsize (Fra Mette Langaas)
+
+\normalsize
+
+\(~\)
+
+\flushleft
 
 \begin{itemize}
 \tightlist
@@ -535,10 +588,12 @@ Forvirringsmatrise med to klasser:
 
 \(~\)
 
-\centering
-
-Derfor: Vi velger den \(k\) som minimerer feilraten på
-\emph{valideringssettet} (ikke trainingssettet!).
+\begin{itemize}
+\tightlist
+\item
+  Derfor: Vi velger den \(k\) som minimerer feilraten på
+  \emph{valideringssettet} (ikke trainingssettet!).
+\end{itemize}
 
 \end{block}
 
@@ -567,8 +622,7 @@ Igjen, men nå med \(k=99\):
 
 \(~\)
 
-Det kan nå gjøres med alle \(k=1,3,\ldots\), \(k\leq n\). De ser slik
-ut:
+Det kan vi nå systematisk gjøre med alle \(k=1,3,\ldots\), \(k\leq n\):
 
 \vspace{5mm}
 
@@ -580,7 +634,8 @@ ut:
 
 \begin{frame}
 
-Klassegrensene ser ganske likt ut for \(k=15\) og \(k=99\):
+Klassegrensene ser ganske likt ut for \(k=15\) og \(k=99\)
+(\(k\geq 15\)):
 
 \begin{center}\includegraphics[width=0.7\linewidth]{2Klassifikasjon_files/figure-beamer/knnplot4-1} \end{center}
 
@@ -591,18 +646,18 @@ Klassegrensene ser ganske likt ut for \(k=15\) og \(k=99\):
 
 \vspace{2mm}
 
-Husk at vi hadde tre deler i datasettet:
+Husk at vi hadde \emph{tre} deler i datasettet:
 
 \vspace{2mm}
 
 \begin{itemize}
 \tightlist
 \item
-  Treningssett: For å lage en klassifikasjonsregel
+  \textbf{Treningssett}: For å lage en klassifikasjonsregel
 \item
-  Valideringssett: For å finne på optimale hyperparametere
+  \textbf{Valideringssett}: For å finne på optimale hyperparametere
 \item
-  Testsett: For å evaluere regelen på fremtidige data
+  \textbf{Testsett}: For å evaluere regelen på fremtidige data
 \end{itemize}
 
 \vspace{5mm}
@@ -611,7 +666,8 @@ Husk at vi hadde tre deler i datasettet:
 
 \vspace{2mm}
 
-Nå kan vi bruk testsettet for å finne feilraten.
+Nå kan vi bruke testsettet for å \emph{finne feilraten} for fremtidige
+data.
 
 \end{frame}
 
@@ -626,95 +682,28 @@ Feilraten er 0.09.
 
 \end{frame}
 
-\begin{frame}{\(k\)-nærmeste nabo klassifikasjon i Python}
+\begin{frame}[fragile]{\(k\)-nærmeste nabo klassifikasjon i Python}
 \protect\hypertarget{k-nuxe6rmeste-nabo-klassifikasjon-i-python}{}
 
-knaboer = np.arange(1,199,step=2)
+\texttt{knaboer\ =\ np.arange(1,199,step=2)}
 
-val\_feilrate = np.empty(len(knaboer)) for i,k in enumerate(knaboer):
-knn = KNeighborsClassifier(n\_neighbors=k,p=2)
-knn.fit(df\_tren{[}{[}`x1',`x2'{]}{]}, df\_tren{[}`y'{]})
-val\_feilrate{[}i{]} = 1-knn.score(df\_val{[}{[}`x1',`x2'{]}{]},
-df\_val{[}`y'{]})
+\texttt{val\_feilrate\ =\ np.empty(len(knaboer))}
 
-\end{frame}
+\texttt{for\ i,k\ in\ enumerate(knaboer):}\\
+\(~\) \texttt{knn\ =\ KNeighborsClassifier(n\_neighbors=k,p=2)}\\
+\(~\)
+\texttt{knn.fit(df\_tren{[}{[}\textquotesingle{}x1\textquotesingle{},\textquotesingle{}x2\textquotesingle{}{]}{]},\ df\_tren{[}\textquotesingle{}y\textquotesingle{}{]})}\\
+\(~\)
+\texttt{val\_feilrate{[}i{]}\ =\ 1-knn.score(df\_val{[}{[}‘x1\textquotesingle{},\textquotesingle{}x2\textquotesingle{}{]}{]},\ df\_val{[}\textquotesingle{}y\textquotesingle{}{]})}
 
-\begin{frame}{Todo (adapt to the code they need in oppgave 2)}
-\protect\hypertarget{todo-adapt-to-the-code-they-need-in-oppgave-2}{}
+\(~\)
 
-Plott feilrate:
-
-plt.title(`k-NN for ulike verdier av antall naboer k') plt.plot(knaboer,
-val\_feilrate, label=`Feilrate på valideringssettet') plt.xlabel(`Antall
-naboer k'); plt.ylabel(`Feilrate') plt.show()
-
-Velg k: mink\_valfeilrate = knaboer{[}np.where(val\_feilrate ==
-val\_feilrate.min()){]} print(mink\_valfeilrate{[}0{]})
-
-Sett opp klassifikator:
-
-bestek=99 knn = KNeighborsClassifier(n\_neighbors=bestek,p=2)
-
-Feilrate på testsett: knn.fit(df\_tren{[}{[}`x1',`x2'{]}{]},
-df\_tren{[}`y'{]}) print(``Feilrate kNN:'', 1-
-knn.score(df\_test{[}{[}`x1',`x2'{]}{]}, df\_test{[}`y'{]}))
+Se prosjektoppgaven for mer Python kode.
 
 \end{frame}
 
-\begin{frame}
-
-\begin{block}{Pensum for oppgave 2 -- hvor er vi nå?}
-
-\begin{multicols}{2}
-\begin{itemize}
-\item trening/validering/test
-\item hvorfor
-\item hvordan bruke
-\item viktig å tenke på
-\end{itemize}
-
-\vspace{4mm}
-
-\begin{itemize}
-\item tolke plott
-\item boksplott histogram
-\item kryssplott korrelasjon
-\item hva ser vi etter når vi vil lage en god klassifikasjonsregel?
-\end{itemize}
-
-\vspace{15mm}
-
-\begin{itemize}
-\item Forvirringsmatrise og feilrate
-\item evaluere modell
-\item velg mellom to modeller eller metoder
-\item velge hyperparameter
-\end{itemize}
-
-\vspace{4mm}
-
-\begin{itemize}
-\item $k$-nærmeste nabo (kNN)
-\item forstå metoden
-\item velge $k$
-\end{itemize}
-
-\vspace{4mm}
-
-\begin{itemize}
-\item logistisk regresjon
-\item tolke estimerte koeffisienter
-\item hypotesetest og p-verdi
-\item velge mellom modeller
-\end{itemize}
-\end{multicols}
-
-\end{block}
-
-\end{frame}
-
-\begin{frame}{Plan for i dag}
-\protect\hypertarget{plan-for-i-dag-1}{}
+\begin{frame}{Plan tema ``Klassifikasjon''}
+\protect\hypertarget{plan-tema-klassifikasjon-1}{}
 
 \(~\)
 
@@ -722,15 +711,60 @@ knn.score(df\_test{[}{[}`x1',`x2'{]}{]}, df\_test{[}`y'{]}))
 \item
   Læringsmål og ressurser
 \item
-  Hva er klassifikasjon
+  Hva er klassifikasjon?
 \item
   Trening, validering og testing (3 datasett)
 \item
-  \(k\)-nærmeste nabo (kNN): en intuitiv metode
+  \(k\)-nærmeste nabo (KNN): en intuitiv metode
 \item
   Forvirringsmatrise og feilrate for å evaluere metoden
 \item
   Logistisk regresjon
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Logistisk regresjon - mål}
+\protect\hypertarget{logistisk-regresjon---muxe5l}{}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Forstå modellen
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Tolke estimerte koeffisienter
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Hypotesetest og \(p\)-verdi
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Velge mellom modeller
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Kunne utføre dette i Python
 \end{itemize}
 
 \end{frame}
@@ -796,10 +830,12 @@ kredittkortet (balance).
 
 \begin{frame}
 
-Det ser ut som at ``Balance'' er en ganske go forklarende variabel til
+Det ser ut som at ``Balance'' er en ganske god forklarende variabel til
 Default (nei/ja).
 
-\begin{center}\includegraphics[width=0.9\linewidth]{2Klassifikasjon_files/figure-beamer/unnamed-chunk-8-1} \end{center}
+\(~\)
+
+\begin{center}\includegraphics[width=0.95\linewidth]{2Klassifikasjon_files/figure-beamer/unnamed-chunk-8-1} \end{center}
 
 \end{frame}
 
@@ -815,8 +851,8 @@ forklaringsvariabler \(X\) bruker vi vannligvis en \emph{dummy encoding}
 :
 
 \[Y = \left\{ \begin{array}{ll}
-0 & \text{if } \texttt{no} \ , \\
-1 & \text{if } \texttt{yes} \ .
+0 & \text{hvis  } \texttt{no} \ , \\
+1 & \text{hvis  } \texttt{yes} \ .
 \end{array} \right.\]
 
 \vspace{6mm}
@@ -831,10 +867,10 @@ forklaringsvariabler \(X\) bruker vi vannligvis en \emph{dummy encoding}
 
 \begin{itemize}
 \item
-  Kunne vi da ikke bare formulere en linear regresjonsmodell for \(X\)
-  vs. \(Y\)?
+  Kunne vi da ikke bare formulere en linear regresjonsmodell for \(Y\)
+  vs. \(X\)?
 \item
-  Vi kunne jo klassifisere response som ``ja'' (1) hvis
+  Vi kunne jo klassifisere responsen som ``ja'' (1) hvis
   \(\hat{Y}> 0.5\).
 \end{itemize}
 
@@ -849,7 +885,7 @@ forklaringsvariabler \(X\) bruker vi vannligvis en \emph{dummy encoding}
 
 \(~\)
 
-For kredittortdatasettet:
+For kredittortdatasettet: \vspace{-2mm}
 
 \includegraphics{4.2.png}
 
@@ -889,9 +925,331 @@ For kredittortdatasettet:
   logistisk funksjon:
 \end{itemize}
 
-\[p_i = \frac{\exp(\beta_0 + \beta_x x_{1i}}{1+ \exp(\beta_0 + \beta_x x_{1i}} \]
+\[p_i = \frac{\exp(\beta_0 + \beta_1 x_{1i})}{1+ \exp(\beta_0 + \beta_1 x_{1i})} \ .\]
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Denne verdien \(p_i\) er alltid mellom 0 og 1, som den skal være.
+\end{itemize}
+
+\vspace{2mm}
+
+\(~\)
+
+\(~\)
 
 \end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Klassifikasjonsregel}
+
+\(~\)
+
+I kredittkorteksempelet er \(x_{1i}\) balansen til person \(i\).
+
+\(~\)
+
+Klassifikasjonsregel: \(p\geq 0.5\) vs \(p<0.5\).
+
+\(~\)
+
+\begin{center}\includegraphics[width=0.8\linewidth]{2Klassifikasjon_files/figure-beamer/unnamed-chunk-11-1} \end{center}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Enkel logistisk regresjon med Python}
+
+\(~\)
+
+\includegraphics{default_enkelt.png}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Tolkning av \(\beta_1\): odds}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Odds er definert som ratioen mellom sannsynlighet for suksess (\(p\))
+  og fiasko (\(1-p\)): \[odds = \frac{p}{1-p}\]
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Noen eksempler (og zoom poll):
+\end{itemize}
+
+\(~\)
+
+\vspace{5mm}
+
+\(~\)
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  I logistisk regresjon: Hvis vi øker verdien til kovariaten fra
+  \(x_{i1}\) til \(x_{i1} + 1\) så blir den nye oddsen lik den gamle
+  multiplisert med \(e^{\beta_1}\).
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{block}{Enkel logistisk regresjon}
+
+\(~\)
+
+\includegraphics{default_enkelt2.png}
+
+\(~\)
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  \(\beta_0=-11.0385\), \(\beta_1=0.0057\).
+\end{itemize}
+
+\vspace{3mm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(e^{0.0057}=1.0057\): Hvis \texttt{balance} øker med 1, går oddsen
+  opp en \emph{faktor} 1.0057.
+\end{itemize}
+
+\vspace{3mm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(e^{0.0057\cdot 100}=1.768\): Hvis \texttt{balance} øker med 100, går
+  oddsen opp en \emph{faktor} 1.769.
+\end{itemize}
+
+\vspace{3mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Husk at \(H_0: \beta_1=0\) versus \(H_1: \beta_1\neq 0\). Her har vi
+  \(p<0.001\) for testen, derfor forkaster vi \(H_0\).
+\end{itemize}
+
+\vspace{10mm}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Logistisk regresjon med flere forklaringsvariabler}
+
+\(~\)
+
+\includegraphics{default_multiple.png}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Nytt:
+  \[p_i = \frac{\exp(\beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i})}{ 1 + \exp(\beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i})}\]
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Tolkning av \(\beta_1\) og \(\beta_2\)?
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  \(p\)-verdi?
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{block}{Hvilken model er bedre?}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  For klassifikasjonen, skal vi velge modellen med bare \texttt{balance}
+  eller med \texttt{balance\ +\ income}?
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Ideen: Skjekk feilrate på valideringssettet!
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Husker du bruk av forvirringsmatrise?
+\end{itemize}
+
+\vspace{2mm}
+
+\begin{itemize}
+\tightlist
+\item
+  Det er resultatene fra modellene:
+\end{itemize}
+
+\begin{longtable}[]{@{}lcc@{}}
+\toprule
+& pred:no & pred:yes\tabularnewline
+\midrule
+\endhead
+true:no & 1923 & 10\tabularnewline
+true:yes & 52 & 15\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}lcc@{}}
+\toprule
+& pred:no & pred:yes\tabularnewline
+\midrule
+\endhead
+true:no & 1924 & 9\tabularnewline
+true:yes & 50 & 17\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  Feilratene er derfor0.031 (enkel modell) og 0.0295 (multippel modell)
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{block}{Feilrate testsett}
+
+\(~\)
+
+Til slutten kan vi sjekke feilraten på testsettet -- dette settet har vi
+enda ikke brukt.
+
+\(~\)
+
+Her finner vi 0.0245
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{block}{Python code}
+
+\(~\)
+
+\texttt{formel=\textquotesingle{}y\ \textasciitilde{}\ balance\ +\ income\textquotesingle{}}\\
+\texttt{modell\ =\ smf.logit(formel,data=df)}~\\
+\texttt{resultat\ =\ modell.fit()}~\\
+\texttt{resultat.summary()}~\\
+\texttt{print(np.exp(resultat.params))}
+
+\(~\)
+
+\texttt{cutoff\ =\ 0.5}\\
+\texttt{test\_pred\ =\ resultat.predict(exog\ =\ df\_test)}~\\
+\texttt{y\_testpred\ =\ np.where(test\_pred\ \textgreater{}\ cutoff,\ 1,\ 0)}~\\
+\texttt{y\_testobs\ =\ df\_test{[}\textquotesingle{}y\textquotesingle{}{]}}~\\
+\texttt{print("Feilrate:",\ 1-accuracy\_score(y\_true=y\_testobs,}~\\
+\(~\) \texttt{y\_pred=y\_testpred,normalize=True))}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Videre denne uken}
+\protect\hypertarget{videre-denne-uken}{}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Se på videoene om Klyngeanalyse og K-gjennomsnitt (vent med videoen om
+  hierarkisk klyngeanalyse).
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Les i kompendiet
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Begynn å jobbe med prosjektoppgavene
+\end{itemize}
+
+\(~\)
+
+\begin{itemize}
+\tightlist
+\item
+  Se her for mer informasjon:
+  \url{https://wiki.math.ntnu.no/istx1003/2021h/start}
+\end{itemize}
 
 \end{frame}
 

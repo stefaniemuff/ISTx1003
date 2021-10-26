@@ -31,10 +31,20 @@ knitr::opts_chunk$set(echo = TRUE,tidy=TRUE,message=FALSE,warning=FALSE,strip.wh
 whichformat="latex"
 ```
 
---- 
+---
+
+# Anerkjennelse
+
+$~$
+
+Disse slides bygger på slides fra Mette Langaas, 2020.
 
 
-# Plan for i dag og fredag 12:15-13:00
+Takk til Mette for at jeg fikk bruke noen av materialene.
+
+---
+
+# Plan for i dag og fredag 12:15-13:00 (tema "Regresjon")
 
 $~$
 
@@ -876,4 +886,24 @@ Så hva er modellene for de tre opprinnelsene (`origin`) av bilene?
 
 ---
 
-## Oppsummering linear regresjon
+# Videre denne uken
+
+$~$
+
+* Se på videoene om multippel linear regresjon (hvis du ikke har allerede gjort det).
+
+$~$
+
+* Se på videoene om klassifikasjon.
+
+$~$
+
+* Les i kompendiet
+
+$~$
+
+* Begynn å jobbe med prosjektoppgavene -- problem 1
+
+$~$
+
+* Se her for mer informasjon: https://wiki.math.ntnu.no/istx1003/2021h/start
