@@ -185,11 +185,27 @@ $~$
 
 $~$
 
+Starter neste uke!
+
+\vspace{2mm}
+
 **Trondheim**: 11., 18. og 25. November, 12:15-14:00 i Sentralbygg S3.
 
 **Ålesund**:
 
 **Gjøvik**: 
+
+\vspace{2mm} 
+
+**Digital veileding for alle:**
+
+  * Forumet: https://mattelab.math.ntnu.no/, velg kategorien "ISTx100y Statistikk for bachelor ingeniør".
+  
+  * Veileding via _Whereby_ 
+    * Man 15.11. og 22.11., 14:15-15:00 
+    * Fre 19.11. og 26.11., 12:15-14:00  
+    
+    for alle campuser. Mer informasjon kommer her: https://wiki.math.ntnu.no/istx1003/2021h/start
 
 
 --- 
@@ -519,7 +535,7 @@ $~$
 
 * Tilpasset regressjonslinie og 95% konfidensintervall for regressjonslinia (forventningsverdien $\text{E}(Y)$).
 
-* 95% prediksjonsintervall for nye observasjoner (kroppsfett for nye personer; handtegnet)
+* 95% prediksjonsintervall for nye observasjoner (kroppsfett for nye personer; handtegnet).
 
 ![](ols_result_plot.png){width=70%}
 
@@ -540,7 +556,7 @@ $~$
 Her vil man
 
 * Ikke noe struktur
-* Sentrering rundt 0 verdi
+* Sentrering rundt 0 verdien
 
 ---
 
@@ -601,7 +617,7 @@ Hva betyr alt dette?
 * `coef`: $\hat\beta_j$
 * `std err`: $\hat\text{SE}(\hat\beta_j)$
 * `t`: $\frac{\hat\beta_j-0}{\text{SE}(\hat\beta_j)}$
-* `P>|t|`: $p$-verdi (obs! $p=0.000$ er _ikke_ mulig, det betyr egentlig $p<0.001$)
+* `P>|t|`: $p$-verdi (obs! $p=0.000$ er _ikke_ mulig, det betyr egentlig $p<0.0005$)
 
 ---
 
@@ -793,8 +809,8 @@ Hva betyr det når $x_{1i}$ er enten 0 eller 1 (binær)?
 
 $$
 \begin{array}{ll}
- \beta_0  + e_i \quad &\text{ hvis  } x_{1i}=0 \\
- \beta_0 + \beta_1 + e_i \quad &\text{ hvis  } x_{1i} =1\\
+ \beta_0  + e_i \quad &\text{ hvis  } x_{1i}=0  \ , \\
+ \beta_0 + \beta_1 + e_i \quad &\text{ hvis  } x_{1i} =1  \ .\\
 \end{array}
 $$
 
@@ -815,8 +831,8 @@ $~$
 
 Med 
 
-* $\log(Hg_{urin})$: log konsentrasjon av Hg i urin.
-* $x_{1}$ binær variabel som er 1 hvis person røyker, ellers 0. 
+* $\log(Hg_{urin})$: log konsentrasjon av Hg i urin
+* $x_{1}$ binær variabel som er 1 hvis person røyker, ellers 0
 * $x_{2}$ antall amalgam fillinger i tennene
 * $x_{3}$ antall fiskemåltider per måned.
 
@@ -866,7 +882,7 @@ write.table(d.car,file="data/Auto.csv",sep=",",quote=FALSE,row.names=F)
 
 \vspace{4mm}
 
-* Ide: dummy-variabel koding -- kalles _one-hot koding_ i maskinlæring.
+* Idé: dummy-variabel koding -- kalles _one-hot koding_ i maskinlæring.
 
   + $x_{2i}=0$ og $x_{3i}=0$ hvis `origin` er "American"
   + $x_{2i}=1$ og $x_{3i}=0$ hvis `origin` er "European"
@@ -898,11 +914,11 @@ $~$
 
 $~$
 
-* Les i kompendiet
+* Les i kompendiet.
 
 $~$
 
-* Begynn å jobbe med prosjektoppgavene -- problem 1
+* Begynn å jobbe med prosjektoppgaven -- problem 1.
 
 $~$
 
