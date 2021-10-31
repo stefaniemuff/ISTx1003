@@ -75,8 +75,8 @@ $~$
 * I **veilederteamet** (for prosjektet) inngår i tillegg
   * Trondheim: studentassistentene Simen, Simon og Philip, og
 øvingslærer Martin O. Berild
-  * Gjøvik: Charles Curry ...
-  * Ålesund: Siebe B. van Albada, ...
+  * Gjøvik: Charles Curry  
+  * Ålesund: Siebe B. van Albada 
  
  
 ---
@@ -89,7 +89,7 @@ $~$
 
 \vspace{2mm}
 
-* _Data science_ er et konsept for å forene statistikk, dataanalyse, informatikk og tilhørende metoder for å "forstå og analysere relle fenomener med data.
+* _Data science_ er et konsept for å forene statistikk, dataanalyse, informatikk og tilhørende metoder for å "forstå og analysere relle fenomener med data".
 
 
 
@@ -191,9 +191,9 @@ Starter neste uke!
 
 **Trondheim**: 11., 18. og 25. November, 12:15-14:00 i Sentralbygg S3.
 
-**Ålesund**:
+**Ålesund**: Info kommer
 
-**Gjøvik**: 
+**Gjøvik**: Info kommer
 
 \vspace{2mm} 
 
@@ -202,8 +202,8 @@ Starter neste uke!
   * Forumet: https://mattelab.math.ntnu.no/, velg kategorien "ISTx100y Statistikk for bachelor ingeniør".
   
   * Veileding via _Whereby_ 
-    * Man 15.11. og 22.11., 14:15-15:00 
-    * Fre 19.11. og 26.11., 12:15-14:00  
+    * Man 15.11.\ og 22.11., 14:15-15:00 
+    * Fre 19.11.\ og 26.11., 12:15-14:00  
     
     for alle campuser. Mer informasjon kommer her: https://wiki.math.ntnu.no/istx1003/2021h/start
 
