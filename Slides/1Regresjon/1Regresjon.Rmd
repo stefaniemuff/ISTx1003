@@ -181,7 +181,7 @@ $~$
 
 ---
 
-# Veileding til prosjektoppgaven
+# Veiledning til prosjektoppgaven
 
 $~$
 
@@ -189,19 +189,19 @@ Starter neste uke!
 
 \vspace{2mm}
 
-**Trondheim**: 11., 18. og 25. November, 12:15-14:00 i Sentralbygg S3.
+**Trondheim**: Torsdag, 11., 18. og 25. November, 12:15-14:00 i Sentralbygg S3.
 
 **Ålesund**: Info kommer
 
-**Gjøvik**: Info kommer
+**Gjøvik**: Onsdag 10., 17. og 24. November, 16:15-18:00 (Ch.\ Curry)
 
 \vspace{2mm} 
 
-**Digital veileding for alle:**
+**Digital veiledning for alle:**
 
   * Forumet: https://mattelab.math.ntnu.no/, velg kategorien "ISTx100y Statistikk for bachelor ingeniør".
   
-  * Veileding via _Whereby_ 
+  * Veiledning via _Whereby_ 
     * Man 15.11.\ og 22.11., 14:15-15:00 
     * Fre 19.11.\ og 26.11., 12:15-14:00  
     
