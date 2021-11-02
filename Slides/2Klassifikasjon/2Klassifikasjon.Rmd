@@ -129,7 +129,7 @@ For hver av de uavhengige observasjonene $i=1,\ldots,n$ har vi
 
 --- 
 
-## Eksempler I
+## Eksempel I
 
 \vspace{2mm}
 
@@ -155,7 +155,7 @@ For hver av de uavhengige observasjonene $i=1,\ldots,n$ har vi
 
 ---
 
-## Eksempler II
+## Eksempel II
 
 $~$
 
@@ -320,7 +320,7 @@ Algoritmen:
   2) Finn de $k$ nærmeste naboene til observasjonen i treningssettet.
 
   3) Sannsynligheten for at den nye observasjonen tilhører klasse 1 anslår vi er andelen av de $k$ nærmeste
-naboene som har tilhører klasse 1. Ditto for de andre klassene.
+naboene som tilhører klasse 1. Ditto for de andre klassene.
 
   4) Klassen til den nye observasjonen er den som har
 størst sannsynlighet. Det blir det samme som å bruke
@@ -480,17 +480,19 @@ $~$
 
 Vi så jo at
 
-* Hvis man velger $k$ for lite, da blir grensen _for fleksibel_.
+* hvis man velger $k$ for lite, da blir grensen _for fleksibel_.
 
 $~$
 
 Men: 
 
-* Hvis man velger $k$ for stor, kan grensen bli _for ufleksibel_.
+* hvis man velger $k$ for stor, kan grensen bli _for ufleksibel_.
 
 $~$
 
-Det er noe som kalles en trade-off, og vi skal bruk valideringssettet for å få en idé om kvaliteten i klassifikasjonen.
+$~$
+
+Det er noe som kalles en _\textcolor{red}{trade-off}_, og vi skal bruk valideringssettet for å få en idé om kvaliteten i klassifikasjonen.
 
 ---
 
@@ -573,7 +575,7 @@ plot(seq(1,kmax,2),misclas,type="b",xlab="k",ylab="Feilrate",pch=19,cex=0.8)
 
 --- 
 
-Klassegrensene ser ganske likt ut for $k=15$ og $k=99$ ($k\geq 15$):
+Klassegrensene ser ganske likt ut for $k\geq 15$:
 
 ```{r,knnplot4,echo=FALSE,eval=TRUE,fig.width=7,fig.height=7,fig.align = "center",out.width='70%'}
 grid.arrange(gg1,gg5,gg15,gg99,nrow=2)
@@ -796,7 +798,7 @@ $~$
 Datasettet `Default` er tatt fra her: https://rdrr.io/cran/ISLR/man/Credit.html
 
 \vspace{2mm}
-**Mål** : forutsi om en person ikke betaler kredittkortregning ("person defaults"), avhengig av årsinntekten (income) og balansen på kredittkortet (balance).
+**Mål** : å forutsi om en person ikke betaler kredittkortregningen ("person defaults"), avhengig av årsinntekten (income) og balansen på kredittkortet (balance).
 
 \textcolor{orange}{Orange: default=yes}, \textcolor{blue}{blue: default=no}.
 
@@ -806,7 +808,7 @@ Datasettet `Default` er tatt fra her: https://rdrr.io/cran/ISLR/man/Credit.html
 
 ---
 
-Det ser ut som at "Balance" er en ganske god forklarende variabel til Default (nei/ja).
+Det ser ut som at "Balance" er en ganske god forklarende variabel til Default (nei/ja), mens "Income" ikke har mye å si.
 
 $~$
 
@@ -870,7 +872,7 @@ For kredittortdatasettet:
 
 $~$
 
-```{r, echo=F,fig.width=7,fig.height=5.5,fig.align = "center",out.width='80%'}
+```{r, echo=F,fig.width=7,fig.height=5.5,fig.align = "center",out.width='75%'}
 r.glm <- glm(default.bin~balance,Default,family="binomial") 
 coefs <- summary(r.glm)$coef[,1]
 
@@ -889,7 +891,7 @@ lines(xx,probs,type="l",col=4,lwd=3)
 
 $~$
 
-* Vi antar at responsen $Y_i$ er binomisk fordelt med suksessannsynlighet $p_i$
+* Vi antar at responsen $Y_i$ er binomisk fordelt med suksessannsynlighet $p_i$.
 
 $~$
 
@@ -1030,11 +1032,11 @@ $~$
 
 \vspace{2mm}
 
-* Ideen: Skjekk feilrate _på valideringssettet_!
+* Ideen: Skjekk feilraten _på valideringssettet_!
 
 \vspace{2mm}
 
-* Husker du bruk av forvirringsmatrise?
+* Husker du bruken av forvirringsmatrisen?
  
 
 \vspace{2mm}
@@ -1094,11 +1096,11 @@ $~$
 
 $~$
 
-* Les i kompendiet
+* Les i kompendiet.
 
 $~$
 
-* Begynn å jobbe med prosjektoppgavene 
+* Begynn å jobbe med prosjektoppgavene.
 
 $~$
 
