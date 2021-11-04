@@ -831,9 +831,9 @@ $~$
 
 Med 
 
-* $\log(Hg_{urin})$: log konsentrasjon av Hg i urin
+* $\log(Hg_{urin})$: log konsentrasjon av Hg i urin.
 * $x_{1}$ binær variabel som er 1 hvis person røyker, ellers 0
-* $x_{2}$ antall amalgam fillinger i tennene
+* $x_{2}$ antall amalgam fillinger i tennene.
 * $x_{3}$ antall fiskemåltider per måned.
 
 ---
@@ -859,7 +859,7 @@ Modell for ikke-røyker:
 
 $~$
 
-* Vi gjør ting enda mer fleksibel (eller komplisert!) når vi også tillater kategoriske forklaringsvariabler. 
+* Vi gjør ting enda mer fleksible (eller kompliserte!) når vi også tillater kategoriske forklaringsvariabler. 
 
 \vspace{2mm}
 
