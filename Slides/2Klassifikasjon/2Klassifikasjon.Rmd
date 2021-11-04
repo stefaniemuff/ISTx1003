@@ -133,7 +133,7 @@ For hver av de uavhengige observasjonene $i=1,\ldots,n$ har vi
 
 \vspace{2mm}
 
-* Hvilke tall er handskrevet på brev? Og hva er sannsynligheten for de ulike tallene (=klasser)?
+* Hvilke tall er handskrevet på brevet? Og hva er sannsynligheten for de ulike tallene (=klasser)?
 \vspace{2mm}
 
 \centering
@@ -392,7 +392,7 @@ gg
 
 ---
 
-## Tegn klassegrenser
+## Tegne klassegrenser
 
 \vspace{5mm}
 
@@ -631,7 +631,7 @@ Feilraten er `r error`.
 
 # $k$-nærmeste nabo klassifikasjon i Python
 
-`knaboer = np.arange(1,199,step=2)`
+`knaboer = np.arange(1,101,step=2)`
 
 `val_feilrate = np.empty(len(knaboer))`  
 
@@ -997,7 +997,7 @@ $~$
 
 \vspace{3mm}
 
-* Husk at $H_0: \beta_1=0$ versus $H_1: \beta_1\neq 0$. Her har vi $p<0.001$ for testen, derfor forkaster vi $H_0$.
+* Husk at $H_0: \beta_1=0$ versus $H_1: \beta_1\neq 0$. Her har vi $p<0.0005$ for testen, derfor forkaster vi $H_0$.
 
 
 \vspace{10mm}
@@ -1024,7 +1024,7 @@ $~$
 
 ---
 
-## Hvilken model er bedre?
+## Hvilken model er best?
 
 \vspace{2mm}
 
