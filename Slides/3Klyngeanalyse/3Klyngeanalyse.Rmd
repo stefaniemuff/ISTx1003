@@ -33,9 +33,20 @@ knitr::opts_chunk$set(echo = TRUE,tidy=TRUE,message=FALSE,warning=FALSE,strip.wh
 whichformat="latex"
 ```
 
+---
+
+# Anerkjennelse
+
+$~$
+
+Disse slides bygger på slides fra Mette Langaas, 2020.
+
+
+Takk til Mette for at jeg fikk bruke noen av materialene.
+
 --- 
 
-# Plan for i dag
+# Plan for i dag (tema "Klyngeanalyse")
 
 $~$
 
@@ -61,7 +72,7 @@ $~$
 
 * $n=81$ celleprøver fra kreftsvulster til ulike pasienter
 
-* genaktivitet for $p =12957$ gener
+* Genaktivitet for $p =12957$ gener
 
 
 \vspace{2mm}
@@ -101,10 +112,15 @@ Finn ut mer:
 
 Det var en prosjektoppgave i fjor.
 
-Mål:
+**Mål:**
 
 Å bruke klyngeanalyse til å fjerne detaljer og støy - ved å
 dele pikslene inn i to eller flere klynger.
+
+
+---
+
+# Eksempel 4: Oppgave 3 på prosjektet 
 
 Todo: Ev adapt with task from this year.
 
@@ -113,17 +129,17 @@ Todo: Ev adapt with task from this year.
 
 # Læringsmål
 
-* forstå hvorfor det er interessant å gjøre klyngeanalyse
+* Forstå hvorfor det er interessant å gjøre klyngeanalyse
 
-* kjenne igjen situasjoner der klyngeanalyse vil være en aktuell metode å bruke
+* Kjenne igjen situasjoner der klyngeanalyse vil være en aktuell metode å bruke
 
-* kjenne begrepene avstandsmål, koblingstype, dendrogram
+* Kjenne begrepene avstandsmål, koblingstype, dendrogram
 
-* forstå algoritmen for å utføre K-gjennomsnitt-klyngeanalyse og hierarkisk klyngeanalyse
+* Forstå algoritmen for å utføre K-gjennomsnitt-klyngeanalyse og hierarkisk klyngeanalyse
 
-* forstå hvordan klyngeanalyse utføres i Python
+* Forstå hvordan klyngeanalyse utføres i Python
 
-*  kunne besvare oppgave 3 av prosjektoppgaven på en god måte!
+* Kunne besvare oppgave 3 av prosjektoppgaven på en god måte!
 
 --- 
 
@@ -221,7 +237,7 @@ Avstandsmål i mer enn 2 dimensioner: Enkelt å regne, men litt vanskelig å for
 
 # Metoder for klyngeanalyse
 
-Det fins ganske mange metoder, men vi ser på to som er (mest?) populær:
+Det finnes ganske mange metoder, men vi ser på to som er (mest?) populær:
 
 **K-gjennomsnitt klyngeanalyse**
 
@@ -257,8 +273,8 @@ ggplot(df, aes(x = x1, y = x2)) +
     geom_point()
 ```
 
-* Alle observasjoner skal være medlem i akkurat en klynge
-* Variasjonen innen hver klynge skal være så liten som mulig
+* Alle observasjoner skal være medlem i akkurat _én_ klynge.
+* Variasjonen innen hver klynge skal være så liten som mulig.
 
 ---
 
@@ -289,7 +305,7 @@ $$\sum_{k=1}^K\frac{1}{|C_k|} \sum_{i,i'\in C_k}\sum_{j=1}^p (x_{ij}-x_{i'j})^2$
 $$ = \sum_{k=1}^K 2 \sum_{i\in C_k}\sum_{j=1}^p (x_{ij}-\overline{x}_{kj})^2\ ,$$
 $~$
 
-med _klyngesentroide_ i klynge $k$: $\overline{x}_k = (\overline{x}_{k1}, \ldots, \overline{x}_{kp})$
+med _klyngesentroide_ i klynge $k$: $\overline{x}_k = (\overline{x}_{k1}, \ldots, \overline{x}_{kp})$.
 
 ---
 
@@ -304,13 +320,13 @@ $~$
 * Tilordne hver observasjon til en klynge
 
   * Mange muligheter
-      + tilfeldig velge ut $K$ observasjoner og sette disse som klyngesentroider
+      + å tilfeldig velge ut $K$ observasjoner og sette disse som klyngesentroider, og deretter tilordne de resterende observasjonene til klyngen med nærmeste klyngesentroide.
       + tilfeldig klynger
-  * og deretter tilordne der resterende observasjoner til klyngen med nærmeste klyngesentroide.
   
 \vspace{2mm}
 
 * \textcolor{red}{Repeter} (iterativt) _til ingen observasjoner endrer klyngemedlemskap_:
+\vspace{1mm}
   1. For hver klynge regn ut klyngesentroiden
   2. Tilordne hver observasjon til klyngen til nærmeste klyngesentroide
   
@@ -327,9 +343,32 @@ Fig. 10.6 fra "An Introduction to Statistical
   
 ---
 
-## $K$-gjennomsnitt-algoritmen i Python
+## Python kodechunk kmeans ($K$-gjennomsnitt-algoritmen)
 
-Todo
+$~$
+
+* Package:  
+`from sklearn.cluster import KMeans`
+
+$~$
+
+* Steg 1: Antall klynger  
+`antall_klynger = 10`
+
+$~$
+
+* Steg 2: Initaliser k-means algoritmen  
+`kmeans = KMeans(n_clusters = antall_klynger, random_state = 1)`
+
+$~$
+
+* Steg 3: Tilpass modellen  
+`kmeans.fit(images)`
+
+$~$
+
+* Sentroidene  
+`sentroider = kmeans.cluster_centers_`
 
 ---
 
@@ -342,6 +381,8 @@ Todo
 # Hierarkisk klyngeanalyse
 
 $~$
+
+\centering
  
 ![](hierclust_AllisonHorst.png){width=80%}
 
@@ -370,8 +411,8 @@ $~$
 <!-- ggplot(df, aes(x = x1, y = x2,label=name)) + -->
 <!--     geom_point(size=2) + -->
 <!--     geom_text(aes(label=name),hjust=-1.2, vjust=0) + -->
-<!--   scale_x_continuous(limits = c(1,7.5)) + -->
-<!--   scale_y_continuous(limits = c(0,8)) -->
+<!--   scale_x_continuous(limits = c(1,7.5),breaks=1:7) + -->
+<!--   scale_y_continuous(limits = c(0,8),breaks=0:8) -->
 <!-- ``` -->
 
 <!-- ```{r, echo=FALSE} -->
@@ -408,7 +449,101 @@ df2 <- data.frame(name=c("a","b","c","d","e"),
 kable(df2,digits=1,align="c")
 ```
 
-
 ---
 
 ## Avstand mellom klynger?
+
+$~$
+
+Tre populære typer avstandsmål:
+
+* **Singel kobling**: minimal avstand
+
+* **Komplett kobling**: maksimal avstand
+
+* **Gjennomsnittskobling**: gjennomsnittlig avstand
+
+$~$
+
+\centering
+
+```{r exampleplot2, echo=FALSE,fig.width=4,fig.height=3.5,out.width='50%'}
+library(ggplot2)
+df <- data.frame(x1 = c(1,2,4,7,5),
+    x2 = c(1,1,5,7,7),name=c("a","b","c","d","e")
+)
+ggplot(df, aes(x = x1, y = x2,label=name)) +
+    geom_point(size=2) +
+    geom_text(aes(label=name),hjust=-1.2, vjust=0) +
+  scale_x_continuous(limits = c(1,7.5),breaks=1:7) +
+  scale_y_continuous(limits = c(0,8),breaks=0:8) +
+  geom_segment(aes(x = 2, y = 1, xend = 4, yend = 5),col="red",linetype="dashed")+
+  geom_segment(aes(x = 1, y = 1, xend = 7, yend = 7),col="red",linetype="dashed")
+```
+
+---
+
+## Algoritme for hierarkisk klyngeanalyse - I
+
+$~$
+
+Før algoritmen starter man bestemme seg for
+
+\vspace{2mm}
+
+ * hvilket avstandsmål skal brukes (f.eks: euklidsk, city block, korrelasjon,...)
+ 
+ \vspace{2mm}
+ 
+ * hvilken koblingtype skal brukes (f.eks: singel, komplett, gjennomsnitt, sentroide,...)
+
+\vspace{2mm}
+
+og regne ut avstandsmatrisen mellom alle observasjoner.
+
+\vspace{2mm}
+ 
+![](avstandsmatrise.png){width=45%}![](exampleplot-1.pdf){width=40%}
+
+
+---
+
+## Algoritme for hierarkisk klyngeanalyse -- II
+
+$~$
+
+Behandle hver observasjon som om den var sin egen klynge (det er da $n$ klynger).
+
+$~$
+
+\vspace{2mm}
+
+1. **Slå sammen**  
+Finn de to klyngene som er nærmest hverandre og slå dem sammen til en klynge.
+
+\vspace{2mm}
+
+2. **Beregn avstander**   
+Beregn nye parvise avstander mellom alle klynger ved bruk av valgt avstandsmål og koblingstype.
+
+$~$
+
+Repeterer til alle observasjonene er i samme klynge.
+
+---
+
+## Resultat fra vår eksempel (dendogram)
+
+$~$
+
+Ved bruk av komplett kobling (maksimal avstand):
+
+$~$
+
+\centering
+![](dendogram.png){width=30%}![](exampleplot-1.pdf){width=50%}
+
+---
+
+## Eksempel
+ 
