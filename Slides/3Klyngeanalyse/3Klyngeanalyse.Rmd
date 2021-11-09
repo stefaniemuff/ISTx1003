@@ -118,11 +118,6 @@ Det var en prosjektoppgave i fjor.
 dele pikslene inn i to eller flere klynger.
 
 
----
-
-# Eksempel 4: Oppgave 3 på prosjektet 
-
-Todo: Ev adapt with task from this year.
 
 
 ---
@@ -374,7 +369,9 @@ $~$
 
 ## Prosjektoppgaven
 
-Todo
+$~$
+
+Vi kan se sammen på prosjektoppgaven.
 
 ---
 
@@ -425,9 +422,9 @@ $~$
 ![](table.png){width=25%}
 ![](exampleplot-1.pdf){width=65%}
 
-1) Velg avstandsmål
-2) Regn ut avstanden mellom alle par av observasjoner
-3) Plasser avstandene inn i en $n\times n$ matrise
+1) Velg avstandsmål.
+2) Regn ut avstanden mellom alle par av observasjoner.
+3) Plasser avstandene inn i en $n\times n$ matrise.
 
 
 ---
@@ -545,5 +542,58 @@ $~$
 
 ---
 
-## Eksempel
+## Eksempel: Genaktivitet
+
+\vspace{2mm}
+
+* $n$=64 celleprøver fra kreftsvulster til ulike pasienter.
+
+* genaktivitet for $p=6830$ gener.
+
+
+![](clustering_and_heatmaps-dendrogram.png){width=90%}
+
+\tiny
+https://bookdown.org/aurora_tumminello/statistics_lab/nci60-data-example.html#clustering-the-nci60-observations
+
+---
+
+## Prosjektoppgaven 3
+
+
+$~$
+
+* Hva er hovedforskjellene mellom K-gjennomsnitt-klyngeanalyse og hierarkisk klyngeanalyse?
+
+$~$
+
+* Hva er parameteren/parametrene på K-gjennomsnitt? På hierakisk klyngeanalyse?
+
+$~$
+
+* Hvorfor har vi ikke brukt trenigns-, validerings- og testsett her?
+ 
+
+
+---
+
+# Videre de neste to ukene
+
+$~$
+
+* Hvis dere ikke har gjort det: Se på de korte videoene for hvert tema.
+
+\vspace{2mm}
+
+* Jobb med prosjektoppgaven. Husk at frist for innlevering av prosjektet til Inspera er **mandag 29.november kl 09.00**.
+
+\vspace{2mm}
+
+* Vi har 5 timer digital veiledning via Whereby (www.whereby.com) begge uker. Se her:  
+https://wiki.math.ntnu.no/istx1003/2021h/start
+
+\vspace{2mm}
+
+
+* Husk også mattelab forumet -- men bare for korte spørsmål. Lange spørsmål fungerer best med direkt interaksjon.
  
