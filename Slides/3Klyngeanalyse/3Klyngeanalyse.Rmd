@@ -83,7 +83,7 @@ Hvilke celleprøver fra brystkreftpasienter ligner hverandre mest?
 
 Kan vi finne ukjente klynger (av celleprøver) i dataene? 
 
-Dette kan hjelpe for å forutse sannsynligheten for en tilbakefall.
+Dette kan hjelpe for å forutsi sannsynligheten for en tilbakefall.
 
 ---
 
@@ -117,8 +117,23 @@ Det var en prosjektoppgave i fjor.
 Å bruke klyngeanalyse til å fjerne detaljer og støy - ved å
 dele pikslene inn i to eller flere klynger.
 
+---
 
+Hver piksel har en farge som er definert som en blandig av rød, grønn og blå $(x,y,z)$:
 
+![](bild.png){width=50%}
+
+![](rgb.png){width=50%}
+
+Klyngeanalyse: Finn $k$ "typiske farger" som representerer klynger (sentroider) og erstatt hver piksel med sentroidfargen.
+
+---
+
+Jeg var litt nysgjerrig...
+
+![](muff_bilde.png){width=30%} \pause
+![](muff_bilde_sh.png){width=30%} \pause
+![](muff_bilde_8klynger.png){width=30%}
 
 ---
 
