@@ -1,8 +1,8 @@
 ---
 subtitle: "ISTx1003 Statistisk læring og Data Science"
-title: "Linear regresjon (enkel og multippel)"
+title: "Lineær regresjon (enkel og multippel)"
 author: "Stefanie Muff, Institutt for matematiske fag"
-date: "November 1 og 5, 2021"
+date: "Oktober 20 og 21, 2025"
 fontsize: 10pt
 output:
   beamer_presentation:
@@ -44,16 +44,16 @@ Takk til Mette for at jeg fikk bruke noen av materialene.
 
 ---
 
-# Plan for i dag og fredag 12:15-13:00 (tema "Regresjon")
+# Plan for i dag og morgen 14:15-15:00 (tema "Regresjon")
 
 $~$
 
 * Læringsmål og plan for prosjektmodulen ISTx1003.
 
 * De tre temaene i modulen: 
-  + regresjon 
-  + klassifikasjon og
-  + klyngeananlyse 
+  + Regresjon 
+  + Klassifikasjon
+  + Klyngeananlyse 
 
 * Pensum og læringsressurser
 
@@ -73,10 +73,9 @@ $~$
 * **Faglig ansvarlig** for innholdet i modulen er Stefanie Muff (stefanie.muff@ntnu.no).
 
 * I **veilederteamet** (for prosjektet) inngår i tillegg
-  * Trondheim: studentassistentene Simen, Simon og Philip, og
-øvingslærer Martin O. Berild
-  * Gjøvik: Charles Curry  
-  * Ålesund: Siebe B. van Albada 
+  * Trondheim: studentassistentene Morten Egeberg Christiansen og Oscar Kehinde Asplin Martins
+  * Gjøvik: Bare digital veiledning  
+  * Ålesund: Digital veiledning og support av Siebe B. van Albada 
  
  
 ---
@@ -136,15 +135,13 @@ prosjektoppgaven'' og de kan du finne ved å bruke læringsressursene.
 \vspace{2mm}
 Alle ressurser er tilgjengelig her:
 
-https://wiki.math.ntnu.no/istx1003/2021h/start
+https://wiki.math.ntnu.no/istx100y/2025h/1003
 
 $~$
 
 Tema Regresjon:
 
 \vspace{2mm}
-
-* **Kompendium**: Regresjon (pdf og html, by Mette Langaas)
 
 * **Korte videoer**: (by Mette Langaas)
   * Multippel lineær regresjon: introduksjon (14:07 min)
@@ -162,11 +159,11 @@ Tema Regresjon:
 
 $~$
 
-* Vi ser hvor informasjonen ligger på Blackboard og hvordan melde seg på gruppe.
+* Vi ser hvor informasjonen ligger på Blackboard.
 
 \vspace{2mm}
 
-* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub.
+* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub. Velg mappe **ProjectISTx1003**.
 
 \vspace{2mm}
 
@@ -185,27 +182,37 @@ $~$
 
 $~$
 
-Starter neste uke!
 
-\vspace{2mm}
+**\textcolor{red}{Fysisk veiledning for Trondheim:}**
 
-**Trondheim**: Torsdag, 11., 18. og 25. November, 12:15-14:00 i Sentralbygg S3.
+**Alle fredager**: 24.10, 31.10., 7.11, og 14.11., 10:15-12:00, Sentralbygg S5.
 
-**Ålesund**: Info kommer
+\vspace{4mm} 
 
-**Gjøvik**: Onsdag 10., 17. og 24. November, 16:15-18:00 (Ch.\ Curry)
+**\textcolor{red}{Digital veiledning for Ålesund og Gjøvik:}**
 
-\vspace{2mm} 
+Veiledning via _Whereby_
 
-**Digital veiledning for alle:**
+  * Man 3.11.\ og 10.11., 14:15-15:00 
+  * Tir 4.11.\ og 11.11., 14:15-16:00  
 
-  * Forumet: https://mattelab.math.ntnu.no/, velg kategorien "ISTx100y Statistikk for bachelor ingeniør".
-  
-  * Veiledning via _Whereby_ 
-    * Man 15.11.\ og 22.11., 14:15-15:00 
-    * Fre 19.11.\ og 26.11., 12:15-14:00  
+Det er et kø-system så dere må evt vente litt:
+
+https://whereby.com/stefanies-whereby 
+
+\centering
+![](../../Prosjekt2025/Whereby_QR.png){width=16%}
+   
     
-    for alle campuser. Mer informasjon kommer her: https://wiki.math.ntnu.no/istx1003/2021h/start
+---    
+    
+ 
+**\textcolor{red}{Mattelab forum for ALLE}**      
+   
+  * https://mattelab2025h.math.ntnu.no/c/istx1003-project-module/57
+  * Åpent 24/7, men stenger fredag, 14.11., 17:00. 
+
+    
 
 
 --- 
@@ -263,7 +270,7 @@ plot(bodyfat ~ hip,d.bodyfat,xlab="hip", ylab="bodyfat (y)")
  
 ---
 
-For en model for funker god for prediksjon trenger vi _multippel linear regresjon_. Men vi begynner med _enkel linear regresjon_ (bare en forklaringsvariabel):
+For en model for funker god for prediksjon trenger vi _multippel lineær regresjon_. Men vi begynner med _enkel lineær regresjon_ (bare en forklaringsvariabel):
  
 
 ```{r motivating2, echo=FALSE, fig.width=6, fig.height=5,fig.align = "center",out.width='70%'}
@@ -272,7 +279,7 @@ ggplot(d.bodyfat,aes(x=bmi,y=bodyfat)) + geom_point() + theme_bw() + ylab("body 
 
 ---
  
-# Enkel linear regresjon
+# Enkel lineær regresjon
 
 $~$
 
@@ -280,10 +287,10 @@ $~$
 
 * Bare _en forklaringsvariabel_ $x_1$ 
 
-* Relasjon mellom $Y$ og $x_1$ er antatt å være _linear_. 
+* Relasjon mellom $Y$ og $x_1$ er antatt å være _lineær_. 
 
 \vspace{6mm}
-Hvis den lineare relasjonen mellom $Y$ og $x$ er perfekt, så gjelder
+Hvis den lineære relasjonen mellom $Y$ og $x$ er perfekt, så gjelder
 $$y_i = \beta_0 + \beta_1 x_{1i}\ $$
 for alle $i$. Men..
 
@@ -303,7 +310,7 @@ geom_abline(intercept = -36, slope = 2.25, color="blue",    size=0.6)
  
 ---
 
-## Enkel linear regresjon
+## Enkel lineær regresjon
 
 $~$
 
@@ -339,7 +346,7 @@ polygon(from_x,from_y,to_x,to_y,col=2,lwd=2)
 ---
 
 
-b) Kan vi tolke linja? Hvor sikkert er jeg på $\hat\beta_1$ og linja? Vi trenger antakelser, KI og hypothesetest.
+b) Kan vi tolke linja? Hvor sikkert er jeg på $\hat\beta_1$ og linja? Vi trenger antakelser, konfidensintervaller, og hypotesetest.
 
 $~$
 
@@ -352,7 +359,7 @@ $~$
 
 ---
 
-# Linear regresjon -- antakelser
+# Lineær regresjon -- antakelser
 
 $$Y_i = \underbrace{\beta_0 + \beta_1 x_{i1}}_{\hat{y}_i} + e_i$$
 med $$e_i \sim \textsf{N}(0,\sigma^2) \ .$$
@@ -380,9 +387,9 @@ Bruk denne lenken:
 
 ---
 
-# Multippel linear regresjon
+# Multippel lineær regresjon
 
-Nesten det samme some enkel linear regresjon, vi bare summerer flere forklaringsvariabler:
+Nesten det samme some enkel lineær regresjon, vi bare summerer flere forklaringsvariabler:
 
 $$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \ldots + \beta_p x_{pi} + e_i \ , \quad e_i \sim\mathsf{N}(0,\sigma^2) \ .$$
 $~$
@@ -409,14 +416,13 @@ $~$
 
 **Steg 3**: Tilpass modellen
 
-**Steg 4**: Presenter resultater fra den tilpassede modellen
+**Steg 4**: Presenter resultatene fra den tilpassede modellen
 
 **Steg 5**: Evaluer om modellen passer til dataene
 
 $~$
 
-Vi skal ikke snakke så mye om hvordan finne en god
-modell, men om hvordan sammenligne to
+Vi skal ikke snakke så mye om hvordan man finner en god modell, men om hvordan man sammenligner to
 modeller (med justert $R^2$) .
 
 ---
@@ -468,7 +474,7 @@ I Python får du en oppsummering av datasettet (`df`) med `df.describe()`.
 
 ---
 
-## Steg 2: Spesifiser modell
+## Steg 2: Spesifiser modellen
 
 $~$
 
@@ -533,9 +539,9 @@ $~$
 
 ---
 
-* Tilpasset regressjonslinie og 95% konfidensintervall for regressjonslinia (forventningsverdien $\text{E}(Y)$).
+* Tilpasset regresjonslinje og 95% konfidensintervall for regressjonslinja (forventningsverdien $\text{E}(Y)$).
 
-* 95% prediksjonsintervall for nye observasjoner (kroppsfett for nye personer; handtegnet).
+* 95% prediksjonsintervall for nye observasjoner (kroppsfett for nye personer; håndtegnet).
 
 ![](ols_result_plot.png){width=70%}
 
@@ -560,17 +566,18 @@ Her vil man
 
 ---
 
-$~$
-
 **Kvantil-kvantil plot**:
+
+$~$
 
 $~$
 
 \centering
 ![](kvantilplot.png){width=60%}
+$~$
 
 \flushleft
-Her vil man at observasjoner ligger mer og mindre på linja.
+Her ser man at observasjonene ligger mer og mindre på linja.
 
 ---
 
@@ -593,7 +600,7 @@ qqline(r.lm$residuals)
 
 ---
 
-## Multippel linear regresjon
+## Multippel lineær regresjon
 
 $~$
 
@@ -678,7 +685,7 @@ $~$
 
 \vspace{5mm}
 
-* 95% konfidensintervall: Intervall vi har stor tro at den inneholder den sanne $\beta_j$.
+* 95% konfidensintervall: Intervall vi har stor tro at den inneholder den sanne stigningen $\beta_j$.
 
 * $[\hat\beta_j \pm \underbrace{t_{\alpha/2,df}}_{\approx 1.96}\cdot \text{SE}(\hat\beta_j)]$
 
@@ -772,7 +779,7 @@ $~$
 
 For modellvalg bruker vi derfor en justert versjon:
 
-$$R^2_{adj} = 1-(1-R^2 )\frac{n-1}{n-m-1}$$
+$$R^2_{adj} = 1-(1-R^2 )\frac{n-1}{n-p-1}$$
 
 ---
 
@@ -863,7 +870,7 @@ $~$
 
 \vspace{2mm}
 
-* Eksempel med 3 kategorier: Bil dataset med $y$=bensinforbruk og forklaringsvariabler `vekt` og `origin`$\in \{\text{American,European,Japanese}\}$. 
+* Eksempel med 3 kategorier: Bildatasett med $y$=bensinforbruk og forklaringsvariabler `vekt` og `origin` som er en av de tre kategoriene \{\text{American,European,Japanese}\}. 
 
 \centering
 
@@ -906,7 +913,7 @@ Så hva er modellene for de tre opprinnelsene (`origin`) av bilene?
 
 $~$
 
-* Se på videoene om multippel linear regresjon (hvis du ikke har allerede gjort det).
+* Se på videoene om multippel lineær regresjon (hvis du ikke har allerede gjort det).
 
 $~$
 
@@ -914,12 +921,8 @@ $~$
 
 $~$
 
-* Les i kompendiet.
+* Begyn å jobbe med prosjektoppgaven -- problem 1.
 
 $~$
 
-* Begynn å jobbe med prosjektoppgaven -- problem 1.
-
-$~$
-
-* Se her for mer informasjon: https://wiki.math.ntnu.no/istx1003/2021h/start
+* Se her for mer informasjon: https://wiki.math.ntnu.no/istx100y/2025h/1003
