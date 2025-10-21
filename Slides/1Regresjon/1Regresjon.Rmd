@@ -163,7 +163,7 @@ $~$
 
 \vspace{2mm}
 
-* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub. Velg mappe **ProjectISTx1003**.
+* Vi ser på prosjektoppgaven på https://s.ntnu.no/isthub. Velg mappe **1003**.
 
 \vspace{2mm}
 
@@ -194,7 +194,7 @@ $~$
 Veiledning via _Whereby_
 
   * Man 3.11.\ og 10.11., 14:15-15:00 
-  * Tir 4.11.\ og 11.11., 14:15-16:00  
+  * Tir 4.11.\ og 11.11., 10:15-12:00  
 
 Det er et kø-system så dere må evt vente litt:
 
@@ -340,7 +340,7 @@ polygon(from_x,from_y,to_x,to_y,col=2,lwd=2)
 
 
 * $\hat{y}_i = \hat\beta_0 + \hat\beta_1x_{1i}$.
-* $\hat{e}_i = \hat{y}_i - y$
+* $\hat{e}_i = y_i - \hat{y}_i$
 * $\hat\beta_0$ og $\hat\beta_1$ velges slik at $$SSE = \sum_i \hat{e}_i^2$$ minimeres.
 
 ---
@@ -617,7 +617,7 @@ $~$
 
 Med fem kovariabler:
 
-![](ols_result_all.png){width=65%}
+![](ols_result_all.png){width=70%}
 
 Hva betyr alt dette?
 
