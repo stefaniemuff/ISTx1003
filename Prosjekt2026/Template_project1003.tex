@@ -1,0 +1,303 @@
+\documentclass[]{article}
+
+
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{amsmath}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={ISTx1003 prosjekt: Tittel (gi projektet en informativ tittel)},
+  pdfauthor={Gruppenummer},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{ISTx1003 prosjekt: Tittel (gi projektet en informativ tittel)}
+\author{Gruppenummer}
+\date{06 oktober, 2026}
+
+\begin{document}
+\maketitle
+
+Rapporten gir maks 50 poeng. Fordeling av poengene vises for hver del.
+Hver del blir vurdert etter
+
+\begin{itemize}
+\tightlist
+\item
+  falglig nivå
+\item
+  korrekthet
+\item
+  presentasjon og lesbarhet
+\end{itemize}
+
+\subsection{Sammendrag/Abstract (max 500 ord) (10
+poeng)}\label{sammendragabstract-max-500-ord-10-poeng}
+
+Formålet med sammendraget er å gi en kort og presis oppsummering av
+prosjektet deres. Det er en selvstendig tekst som plasseres før selve
+rapporten begynner (men skriv den til slutt). Sammendraget bør inneholde
+følgende deler:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Start med å tydelig beskrive formålet med prosjektet. Hvilket problem
+  forsøker dere å løse? Hvilket spørsmål ønsker dere å besvare? Beskriv
+  forskningsspørsmålet/hypotesen. Det er viktig å være kortfattet og
+  konkret.
+\item
+  Beskriv dataene dere brukte. Inkluder lenken til datasettet her.
+  Hvilket datasett benyttet dere? Deklarer størrelse på datasettet
+  (antal observasjoner, antal variabler), typer variabler og
+  responsvariabel.
+\item
+  Beskriv metodene: Hvordan analyserte dere dataene? Hvilke verktøy,
+  teknikker eller metoder brukte dere? Regresjon, klassifisering,
+  klyngeanalyse? Vær spesifisk, men unngå for mange detaljer.
+\item
+  Oppsummer de viktigste funnene. I hoveddelen av sammendraget skal dere
+  oppsummere de viktigste resultatene fra prosjektet og kort tolke dem
+  (altså, hva betyr resultatene?). Fremhev de mest betydningsfulle
+  funnene, og gi nok informasjon til at leseren får et inntrykk av hva
+  dere har oppdaget.
+\item
+  (Valgfritt) Fremhev betydningen av resultatene. Forklar hvorfor
+  og/eller hvordan funnene dine er viktige. Fremhev eventuelle nye eller
+  uventede funn, og forklar hvordan de bidrar til økt forståelse av
+  temaet.
+\end{enumerate}
+
+\subsection{Introduksjon (10 poeng)}\label{introduksjon-10-poeng}
+
+\begin{itemize}
+\item
+  Gi en kort introduksjon til den overordnede problemstillingen eller
+  oppgaven dere har valgt, samt datasettet dere bruker. Dette kan for
+  eksempel være en klassifiseringsoppgave (f.eks. å forutsi om en
+  pasient utvikler hjertesykdom eller ikke) eller en prediksjonsoppgave
+  (f.eks. å forutsi prisen på en Airbnb). Definer tydelig avgrensningen
+  for prosjektet deres. Hvilket spesifikt problem forsøker dere å løse?
+\item
+  Beskriv kilden til datasettet, og oppgi en referanse til hvor
+  datasettet kommer fra.
+\item
+  Beskriv formålet med prosjektet mer detaljert. Hvilke konkrete
+  spørsmål ønsker dere å besvare i prosjektet? Prøver dere å finne
+  metoden som gir best resultater, eller en metode som gir gode
+  resultater samtidig som den er enkel og effektiv å bruke? Hvem er
+  målgruppen? Forsøker dere å undersøke sammenhenger mellom ulike
+  variabler? Prøver dere å finne viktige prediktorer for
+  klassifiseringen? Eller ønsker dere å oppnå en bedre og mer
+  innsiktsfull forståelse av et bestemt tema eller fagområde?
+\end{itemize}
+
+\subsection{Beskrivende dataanalyse (5
+poeng)}\label{beskrivende-dataanalyse-5-poeng}
+
+Her bør du gjennomføre en kort deskriptiv dataanalyse for å få en
+oversikt over datasettet. Det betyr at man lager noen visualiseringer
+for å forstå dataene bedre, og at man beregner noen enkle ting. Fokuser
+på det som er relevant for modelleringen, og bruk sunn fornuft. For mye
+detaljer eller figurer uten forklaring og tydelige akseetiketter er ikke
+nyttige for leseren.
+
+Du kan for eksempel:
+
+\begin{itemize}
+\tightlist
+\item
+  Presentere deskriptiv statistikk, som gjennomsnitt, median,
+  standardavvik og varians, for å beskrive datasettets sentraltendens,
+  variasjon og fordeling.
+\item
+  Bruke spredningsdiagrammer (scatter plots) og korrelasjonsmatriser for
+  å undersøke sammenhenger mellom ulike variabler.
+\item
+  Bruke histogrammer for å vise fordelingen til relevante variabler.
+\item
+  Bruke boksplott (box plots) for å undersøke fordeling, variasjon og
+  eventuelle uteliggere.
+\end{itemize}
+
+Resultatene bør forklares i teksten, med særlig fokus på funn som kan
+være relevante for den videre modelleringen. Skriv en kort legende under
+hver grafikk, slik at det blir tydelig hva grafikken viser.
+
+\subsection{Metoder (10 poeng)}\label{metoder-10-poeng}
+
+\begin{itemize}
+\item
+  Beskriv metodene dere bruker i prosjektet, og forklar i detalj hvordan
+  dere har anvendt dem. Dere bør bruke metoder fra mist 2 av de 3
+  temaene i kurset (regresjon, klassifikasjon, klyngeanalyse).
+\item
+  Forklar kort hvorfor metodene passer for datasett og problemstillingen
+  dere har valgt.
+\item
+  \textbf{Det er viktig at dere bare bruker metoder som er tilpasset
+  nivået i dette kurset -- bruk bare metoder dere lærer om her. Hold det
+  enkelt og realistisk, ikke bruk komplekse metoder som dere ikke
+  forstår, bare fordi KI foreslår det.}
+\item
+  Beskriv hvordan dere evaluerer metodene, hvis det er mulig. Evaluer
+  modellen(e) ved å bruke passende verktøy, for eksempel residualanalyse
+  eller vurdering av prediksjonsytelse (som sensitivitet og spesifisitet
+  i en binær klassifiseringsoppgave).
+\item
+  (Valgfritt) Diskuter mulige begrensninger ved metodene og de valgte
+  evalueringsmålene. Vurder for eksempel om et bestemt mål kan gi et
+  misvisende bilde av modellens ytelse, eller om det finnes egenskaper
+  ved datasettet som gjør en metode mindre egnede.
+\end{itemize}
+
+\subsection{Resultater (10 poeng)}\label{resultater-10-poeng}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Presenter resultatene på en tydelig og strukturert måte. Dette kan for
+  eksempel gjøres ved hjelp av tabeller, grafer eller andre
+  visualiseringer som gjør funnene lettere å forstå.
+\item
+  Tolk resultatene. Tolkningen bør tilpasses regresjons-,
+  klassifiserings- eller klyngeanalyse-oppgaven du har valgt.
+\item
+  Diskuter begrensninger og forbehold som er viktige å ta hensyn til når
+  resultatene skal tolkes. Dette kan for eksempel være begrensninger ved
+  datasettet, modellene eller evalueringsmetodene.
+\item
+  (Valgfritt) Se på mulige videre analyser. Beskriv eventuelt
+  alternative eller forbedrede metoder som kunne vært brukt for å
+  analysere dataene i fremtiden, og hvordan disse potensielt kunne gitt
+  ytterligere innsikt.
+\end{enumerate}
+
+\subsection{Diskusjon og konklusjon (5
+poeng)}\label{diskusjon-og-konklusjon-5-poeng}
+
+Oppsummer de viktigste funnene fra prosjektet deres. Hva fant du ut, og
+hvilke var de viktigste innsiktene du fikk gjennom analysen? Fokuser på
+de mest relevante resultatene fra modelleringen og analysen.
+
+\newpage
+
+\subsection{Deklarasjon om KI-hjelpemidler (maks 1 side -- teller ikke
+til de 10 sidene i
+rapporten)}\label{deklarasjon-om-ki-hjelpemidler-maks-1-side-teller-ikke-til-de-10-sidene-i-rapporten}
+
+Besvar folgende sprørsmål:
+
+1.) Har det i utarbeidingen av denne rapporten blitt anvendt KI-baserte
+hjelpemidler? Hvis ja, beskriv hvilke verktøy dere brukte (Copilot, NTNU
+GPT,\ldots).
+
+2.) Er en eller flere av ideene eller fremgangsmåtene i oppgaven
+foreslått av KI? Hvis ja, beskriv her:
+
+3.) Tekst: Har du brukt KI for
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Stavekontroll?
+\item
+  Språkvask?
+\item
+  Tekstgenerering?
+\item
+  Skriveassistanse.
+\end{enumerate}
+
+Hvis du svarer ja på minst en av a)-d), spesifiser bruken her:
+
+4.) Kode og algoritmer: Programmeringsassistanse. Er deler av
+koden/algoritmene som i) fremtrer direkte i rapporten eller ii) har
+blitt anvendt for produksjon av resultater slik som figurer, tabeller
+eller tallverdier blitt generert av KI? Hvis ja, spesifiser bruken her:
+
+5.) Bilder og figurer, bildegenerering. Er ett eller flere av
+bildene/figurene i rapporten blitt generert av KI? Hvis ja, beskriv
+bruken her:
+
+6.) Beskrive alle andre aspekter av arbeidet som KI ble brukt til.
+Beskriv her:
+
+7.) Ved innlevering av prosjektet deklarerer vi at vi er kjent med NTNUs
+regelverk: Det er ikke tillatt å generere besvarelser eller tekst ved
+hjelp av KI og levere den helt eller delvis som eget arbeid. Vi har
+derfor redegjort for all anvendelse av KI enten direkte i rapporten,
+eller her. Svar her:
+
+\newpage
+
+\subsection{Referanser og kode (teller ikke til de 10 sidene i
+rapporten)}\label{referanser-og-kode-teller-ikke-til-de-10-sidene-i-rapporten}
+
+Her kan dere legge til alle referanser og kode som dere har brukt for å
+generere resultatene i rapporten.
+
+\end{document}
